@@ -4,6 +4,7 @@ ARG VERSION=dev
 ARG REVISION=unknown
 LABEL org.opencontainers.image.title="Subregator Frontend" \
       org.opencontainers.image.source="https://github.com/subregator/subregator-frontend" \
+      org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.version=$VERSION \
       org.opencontainers.image.revision=$REVISION
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -11,6 +12,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     SUBREGATOR_CHECKS_DIR=/var/lib/subregator-checks
 WORKDIR /app
 RUN mkdir -p /var/lib/subregator-checks && chown 65532:65532 /var/lib/subregator-checks
+COPY LICENSE ./
 COPY index.html serve.py verification.py ./
 USER 65532:65532
 VOLUME ["/var/lib/subregator-checks"]
