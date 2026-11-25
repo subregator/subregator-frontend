@@ -72,3 +72,7 @@ npm run format:check
 Python unit tests cover evidence normalization, exact-prefix matching, multi-origin and incomplete RPKI results, malformed responses, CIDR overlap, source freshness, persistent feed refresh intervals and failures. JavaScript unit tests execute the pure functions extracted from the inline script. Browser tests intercept API requests with deterministic fixtures and cover filters, sorting, exact price bounds, pagination, hidden prefixes, seller links, dialogs, keyboard focus, error states, responsive layout and axe accessibility. The running preview always uses the actual API; test fixtures are not part of the delivered page.
 
 The previous Svelte implementation is preserved in `legacy-svelte/` and is not used by the page or default launch commands. Image publishing does not automatically deploy production.
+
+## License
+
+Licensed under the [MIT License](LICENSE). Third-party components retain their own licenses and copyright notices.
