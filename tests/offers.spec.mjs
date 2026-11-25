@@ -278,3 +278,123 @@ test('upstream rate limits pause the batch instead of creating a retry storm', a
   expect(requests).toBe(1);
   await expect(page.locator('.offer-row')).toHaveCount(0);
 });
+
+test('Peaktera attribution, exact term links and upfront fees expire in an open detail', async ({
+  page
+}) => {
+  const offer = structuredClone(offers[40]);
+  offer.observed_at = new Date().toISOString();
+  offer.quotes[0].price.amount_minor = 50000;
+  offer.quotes[0].order_url =
+    'https://www.peaktera.com/portal/checkout?range=1&prefix=192.0.2.0%2F24&term=monthly';
+  offer.quotes[0].fees = [
+    {
+      kind: 'setup',
+      amount: { ...offer.quotes[0].price, amount_minor: 1500 },
+      frequency: 'once',
+      refundable: false
+    },
+    {
+      kind: 'deposit',
+      amount: { ...offer.quotes[0].price, amount_minor: 100000 },
+      frequency: 'once',
+      refundable: true
+    }
+  ];
+  await page.clock.install();
+  await page.route('**/api/v1/offers?**', (route) =>
+    route.fulfill({ json: { items: [offer], total: 1, snapshot: 'one', offset: 0 } })
+  );
+  await page.goto('/');
+  await expect(page.locator('.offer-row')).toHaveCount(1);
+  await expect(page.locator('.offer-row')).toContainText('USD 1,515.00 upfront');
+  await page.locator('.offer-row .prefix-button').click();
+  await expect(
+    page.locator('#dialog').getByRole('link', { name: /^Data: Peaktera/ })
+  ).toBeVisible();
+  await expect(
+    page.locator('#dialog').getByRole('link', { name: 'Order this block' })
+  ).toHaveAttribute('href', offer.quotes[0].order_url);
+  await expect(page.locator('#dialog')).toContainText(
+    'USD 1,515.00 upfront including setup & refundable deposit'
+  );
+  await page.clock.fastForward(3601000);
+  await expect(page.locator('#dialog')).toContainText('Peaktera offer expired');
+  await expect(page.locator('#dialog-title')).toHaveText('Offer expired');
+  await expect(page.locator('.offer-row')).toHaveCount(0);
+  await expect(page.locator('#dialog').getByRole('link', { name: 'Order this block' })).toHaveCount(
+    0
+  );
+});
+
+test('Peaktera rows disappear at the exact publication deadline', async ({ page }) => {
+  await page.clock.install();
+  const offer = { ...offers[40], observed_at: new Date(Date.now() - 3598000).toISOString() };
+  await page.route('**/api/v1/offers?**', (route) =>
+    route.fulfill({ json: { items: [offer], total: 1, snapshot: 'one', offset: 0 } })
+  );
+  await page.goto('/');
+  await expect(page.locator('.offer-row')).toHaveCount(1);
+  await page.clock.fastForward(2100);
+  await expect(page.locator('.offer-row')).toHaveCount(0);
+});
+
+test('Peaktera refreshed detail survives the previous publication deadline', async ({ page }) => {
+  await page.clock.install();
+  const offer = { ...offers[40], observed_at: new Date(Date.now() - 3597000).toISOString() };
+  await page.route('**/api/v1/offers?**', (route) =>
+    route.fulfill({ json: { items: [offer], total: 1, snapshot: 'one', offset: 0 } })
+  );
+  await page.goto('/');
+  await page.locator('.prefix-button').click();
+  await expect(
+    page.locator('#dialog').getByRole('link', { name: /^Data: Peaktera/ })
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Close dialog' }).click();
+  offer.observed_at = new Date().toISOString();
+  await page.getByRole('button', { name: 'Refresh', exact: true }).click();
+  await page.locator('.prefix-button').click();
+  await expect(
+    page.locator('#dialog').getByRole('link', { name: /^Data: Peaktera/ })
+  ).toBeVisible();
+  await page.clock.fastForward(3100);
+  await expect(
+    page.locator('#dialog').getByRole('link', { name: /^Data: Peaktera/ })
+  ).toBeVisible();
+  await expect(page.locator('#dialog')).not.toContainText('Peaktera offer expired');
+});
+
+test('Peaktera expiry preserves lookup input on another page', async ({ page }) => {
+  await page.clock.install();
+  const offer = { ...offers[40], observed_at: new Date(Date.now() - 3598000).toISOString() };
+  await page.route('**/api/v1/offers?**', (route) =>
+    route.fulfill({ json: { items: [offer], total: 1, snapshot: 'one', offset: 0 } })
+  );
+  await page.goto('/');
+  await page.locator('.prefix-button').waitFor();
+  await page.goto('/#lookup');
+  const input = page.locator('#dialog input').first();
+  await input.fill('192.0.2.0/24');
+  await page.clock.fastForward(2100);
+  await expect(input).toHaveValue('192.0.2.0/24');
+});
+
+test('Peaktera expiry preserves lookup opened directly from its detail', async ({ page }) => {
+  await page.clock.install();
+  const offer = { ...offers[40], observed_at: new Date(Date.now() - 3598000).toISOString() };
+  await page.route('**/api/v1/offers?**', (route) =>
+    route.fulfill({ json: { items: [offer], total: 1, snapshot: 'one', offset: 0 } })
+  );
+  await page.goto('/');
+  await page.locator('.prefix-button').click();
+  await page
+    .locator('#dialog')
+    .getByRole('button', { name: 'Look up network', exact: true })
+    .click();
+  const input = page.getByLabel('Network resource');
+  await input.fill('AS13335');
+  await page.clock.fastForward(2100);
+  await expect(input).toHaveValue('AS13335');
+  await page.getByRole('button', { name: 'Close dialog' }).click();
+  await expect(page.locator('.offer-row')).toHaveCount(0);
+});
