@@ -1,0 +1,8 @@
+node_modules
+legacy-svelte
+.playwright-cli
+.svelte-kit
+build
+test-results
+playwright-report
+package-lock.json

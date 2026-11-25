@@ -1,0 +1,222 @@
+{
+  "backend_commit": "f7e5622",
+  "source": "Go api.Handler with ParsePeaktera on internal/providers/testdata/peaktera.html; no external polling",
+  "offers": {
+    "schema_version": 1,
+    "snapshot": "snapshot_188bab4d39a0aeed482fa02e",
+    "total": 1,
+    "limit": 50,
+    "offset": 0,
+    "next_offset": null,
+    "items": [
+      {
+        "id": "peaktera_45091582a9cf02dad87be19c",
+        "external_id": "1",
+        "provider_id": "peaktera",
+        "model": "lease",
+        "availability": "available",
+        "available_at": null,
+        "resource": {
+          "family": 4,
+          "prefix": "45.41.20.0/22",
+          "prefix_length": 22,
+          "address_count": "1024",
+          "rir": "ARIN"
+        },
+        "geography": {
+          "basis": "provider_geolocation"
+        },
+        "routing": {
+          "own_asn": null,
+          "transit_required": null
+        },
+        "quotes": [
+          {
+            "id": "annual",
+            "price": {
+              "currency": "USD",
+              "amount_minor": 400000,
+              "minor_unit": 2
+            },
+            "billing_months": 12,
+            "minimum_months": null,
+            "fees": [
+              {
+                "kind": "setup",
+                "amount": {
+                  "currency": "USD",
+                  "amount_minor": 0,
+                  "minor_unit": 2
+                },
+                "frequency": "once",
+                "refundable": null
+              },
+              {
+                "kind": "deposit",
+                "amount": {
+                  "currency": "USD",
+                  "amount_minor": 0,
+                  "minor_unit": 2
+                },
+                "frequency": "once",
+                "refundable": null
+              }
+            ],
+            "taxes": "unknown"
+          },
+          {
+            "id": "biannual",
+            "price": {
+              "currency": "USD",
+              "amount_minor": 320000,
+              "minor_unit": 2
+            },
+            "billing_months": 6,
+            "minimum_months": null,
+            "fees": [
+              {
+                "kind": "setup",
+                "amount": {
+                  "currency": "USD",
+                  "amount_minor": 0,
+                  "minor_unit": 2
+                },
+                "frequency": "once",
+                "refundable": null
+              },
+              {
+                "kind": "deposit",
+                "amount": {
+                  "currency": "USD",
+                  "amount_minor": 0,
+                  "minor_unit": 2
+                },
+                "frequency": "once",
+                "refundable": null
+              }
+            ],
+            "taxes": "unknown"
+          },
+          {
+            "id": "monthly",
+            "price": {
+              "currency": "USD",
+              "amount_minor": 50000,
+              "minor_unit": 2
+            },
+            "billing_months": 1,
+            "minimum_months": null,
+            "fees": [
+              {
+                "kind": "setup",
+                "amount": {
+                  "currency": "USD",
+                  "amount_minor": 0,
+                  "minor_unit": 2
+                },
+                "frequency": "once",
+                "refundable": null
+              },
+              {
+                "kind": "deposit",
+                "amount": {
+                  "currency": "USD",
+                  "amount_minor": 100000,
+                  "minor_unit": 2
+                },
+                "frequency": "once",
+                "refundable": null
+              }
+            ],
+            "taxes": "unknown"
+          },
+          {
+            "id": "quarterly",
+            "price": {
+              "currency": "USD",
+              "amount_minor": 225000,
+              "minor_unit": 2
+            },
+            "billing_months": 3,
+            "minimum_months": null,
+            "fees": [
+              {
+                "kind": "setup",
+                "amount": {
+                  "currency": "USD",
+                  "amount_minor": 0,
+                  "minor_unit": 2
+                },
+                "frequency": "once",
+                "refundable": null
+              },
+              {
+                "kind": "deposit",
+                "amount": {
+                  "currency": "USD",
+                  "amount_minor": 0,
+                  "minor_unit": 2
+                },
+                "frequency": "once",
+                "refundable": null
+              }
+            ],
+            "taxes": "unknown"
+          }
+        ],
+        "terms": {
+          "summary": "Prepaid billing cycle; confirm routing, taxes and permitted use with provider.",
+          "notice_days": null
+        },
+        "url": "https://www.peaktera.com/ip-ranges",
+        "observed_at": "2026-11-25T11:04:10.188169+07:00",
+        "source_updated_at": null,
+        "freshness": "fresh",
+        "matching_quote_ids": ["annual", "biannual", "monthly", "quarterly"]
+      }
+    ],
+    "facets": {
+      "providers": {
+        "peaktera": 1
+      },
+      "countries": {},
+      "rirs": {
+        "ARIN": 1
+      },
+      "families": {
+        "4": 1
+      },
+      "models": {
+        "lease": 1
+      },
+      "currencies": {
+        "USD": 1
+      }
+    }
+  },
+  "providers": {
+    "items": [
+      {
+        "id": "peaktera",
+        "name": "Peaktera",
+        "url": "https://www.peaktera.com/ip-ranges",
+        "description": "Exact public ranges; price and lease-term selection",
+        "policy": {
+          "publication": "public_source",
+          "prefix_visibility": "full",
+          "min_refresh_seconds": 900,
+          "conditions": ["Public source; explicit redistribution permission requested."]
+        },
+        "freshness": "fresh",
+        "source": {
+          "provider_id": "peaktera",
+          "last_attempt": "2026-11-25T11:04:10.188325+07:00",
+          "last_success": "2026-11-25T11:04:10.188325+07:00",
+          "count": 1,
+          "complete": true
+        }
+      }
+    ],
+    "snapshot": "snapshot_188bab4d39a0aeed482fa02e"
+  }
+}

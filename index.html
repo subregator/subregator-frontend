@@ -1,0 +1,3231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0E1116" />
+    <meta
+      name="description"
+      content="Compare real IPv4 subnet offers, prices and provider terms. Contact sellers directly."
+    />
+    <title>Offers · Subregator</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232A52E8'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        --page: #f4f5f7;
+        --card: #fff;
+        --border: #e1e4e9;
+        --ink: #0e1116;
+        --muted: #5a6575;
+        --accent: #2a52e8;
+        --control: #cbd1da;
+        --ok-bg: #ddf3e4;
+        --ok: #0b6b3a;
+        --warn-bg: #fdebd0;
+        --warn: #8a4b00;
+        --neutral-bg: #e9ecf1;
+        --neutral: #3f4a5a;
+        --mono: 'JetBrains Mono', monospace;
+        font-family: Inter, system-ui, sans-serif;
+        color: var(--ink);
+        background: var(--page);
+        font-synthesis: none;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-size: 13px;
+      }
+      button,
+      input,
+      select {
+        font: inherit;
+        color: inherit;
+      }
+      button,
+      a,
+      input,
+      select,
+      summary {
+        touch-action: manipulation;
+      }
+      button,
+      select,
+      summary {
+        cursor: pointer;
+      }
+      button:disabled {
+        cursor: not-allowed;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+      button {
+        border: 1px solid var(--control);
+        background: var(--card);
+        border-radius: 10px;
+        min-height: 44px;
+        padding: 0 14px;
+        font-weight: 500;
+      }
+      button:hover:not(:disabled) {
+        background: #f0f3fc;
+        border-color: #a2b1e9;
+      }
+      button:active:not(:disabled) {
+        background: #e7ecfc;
+      }
+      button:disabled {
+        color: var(--muted);
+        background: #f3f4f7;
+      }
+      :focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 3px;
+      }
+      input,
+      select {
+        min-height: 44px;
+        width: 100%;
+        min-width: 0;
+        padding: 10px 12px;
+        border: 1px solid var(--control);
+        border-radius: 10px;
+        background: var(--card);
+      }
+      input::placeholder {
+        color: #687486;
+        opacity: 1;
+      }
+      input[type='checkbox'] {
+        width: 16px;
+        height: 16px;
+        min-height: 16px;
+        padding: 0;
+        accent-color: var(--accent);
+        flex-shrink: 0;
+      }
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+      h1 {
+        font-size: 28px;
+        letter-spacing: -0.02em;
+        font-weight: 700;
+      }
+      h2 {
+        font-size: 20px;
+        letter-spacing: -0.02em;
+      }
+      p {
+        line-height: 1.6;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .mono {
+        font-family: var(--mono);
+        font-variant-numeric: tabular-nums;
+        overflow-wrap: anywhere;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      .skip {
+        position: fixed;
+        top: -100px;
+        left: 20px;
+        padding: 14px;
+        background: var(--accent);
+        color: #fff;
+        z-index: 20;
+      }
+      .skip:focus {
+        top: 12px;
+      }
+      .header {
+        min-height: 64px;
+        padding: 10px 32px;
+        background: #0e1116;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #fff;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: -0.4px;
+        white-space: nowrap;
+      }
+      .logo:hover {
+        text-decoration: none;
+      }
+      .logo-mark {
+        width: 22px;
+        height: 22px;
+        background: var(--accent);
+        border-radius: 6px;
+        display: inline-block;
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .nav a {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 10px;
+        color: #d5dbe5;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 7px;
+        white-space: nowrap;
+      }
+      .nav a[aria-current='page'] {
+        background: #242c3b;
+        color: #fff;
+      }
+      .nav a:hover {
+        background: #1b2230;
+        color: #fff;
+        text-decoration: none;
+      }
+      .header-search {
+        margin-left: auto;
+        position: relative;
+        width: 340px;
+        flex: 0 1 340px;
+      }
+      .header-search input {
+        height: 44px;
+        background: #1b2230;
+        border: 1px solid #2d374a;
+        color: #fff;
+        padding-right: 41px;
+        font-size: 12px;
+      }
+      .header-search input::placeholder {
+        color: #a9b3c2;
+      }
+      .search-submit {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 44px;
+        width: 40px;
+        padding: 0;
+        background: none;
+        border: 0;
+        color: #d5dbe5;
+      }
+      .search-submit:hover:not(:disabled) {
+        background: #2d374a;
+      }
+      .sign-in {
+        white-space: nowrap;
+        font-weight: 600;
+      }
+      .sign-in:disabled {
+        background: #fff;
+        color: #5a6575;
+        border-color: #cbd1da;
+      }
+      .layout {
+        max-width: 1440px;
+        margin: auto;
+        padding: 24px 32px;
+        display: flex;
+        align-items: flex-start;
+        gap: 24px;
+      }
+      .sidebar {
+        position: sticky;
+        top: 24px;
+        max-height: calc(100dvh - 112px);
+        overflow-y: auto;
+        scrollbar-width: thin;
+        width: 264px;
+        flex: 0 0 264px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .filter-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--border);
+      }
+      .filter-heading h2 {
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0;
+      }
+      .text-button {
+        padding: 0 7px;
+        background: none;
+        border: 0;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .filter-section {
+        padding: 18px;
+        border: 0;
+        margin: 0;
+        border-bottom: 1px solid var(--border);
+        min-width: 0;
+      }
+      .filter-section:last-child {
+        border-bottom: 0;
+      }
+      .filter-title {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 12px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .chip {
+        height: 44px;
+        border-radius: 22px;
+        font-size: 12px;
+        padding: 0 13px;
+        border-color: #cbd1da;
+        min-width: 52px;
+      }
+      .chip[aria-pressed='true'] {
+        color: #fff;
+        background: #0e1116;
+        border-color: #0e1116;
+      }
+      .chip[aria-pressed='true']:hover {
+        background: #293244;
+        border-color: #293244;
+      }
+      .type-chips .chip {
+        min-width: 90px;
+      }
+      .price-pair {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 10px;
+      }
+      .small-label {
+        display: block;
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 7px;
+      }
+      .filter-help {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.6;
+        margin-top: 10px;
+      }
+      .field-error {
+        color: #a02921;
+        font-size: 12px;
+        margin-top: 8px;
+      }
+      .check-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 44px;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+      .check-label:has(input:disabled) {
+        color: var(--muted);
+        cursor: not-allowed;
+      }
+      .source-count {
+        margin-left: auto;
+        font-variant-numeric: tabular-nums;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .main {
+        flex: 1;
+        min-width: 0;
+      }
+      .page-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        margin: 0 0 20px;
+        min-height: 63px;
+      }
+      .subtitle {
+        color: var(--muted);
+        font-size: 12px;
+        margin-top: 7px;
+        max-width: 620px;
+      }
+      .heading-controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-shrink: 0;
+      }
+      .sort {
+        width: 170px;
+        font-size: 12px;
+      }
+      .primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+        font-weight: 600;
+      }
+      .primary:hover:not(:disabled) {
+        background: #2144c7;
+        color: #fff;
+        border-color: #2144c7;
+      }
+      .primary:disabled {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+        opacity: 0.65;
+      }
+      .toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 14px;
+      }
+      .catalogue-search {
+        display: flex;
+        gap: 8px;
+        flex: 1;
+        max-width: 370px;
+      }
+      .catalogue-search input {
+        font-size: 12px;
+      }
+      .toolbar-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .currency {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .currency label {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .currency select {
+        width: 89px;
+        font-size: 12px;
+      }
+      .refresh {
+        font-size: 12px;
+      }
+      .active-filters {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-bottom: 14px;
+      }
+      .filter-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        border: 1px solid #d3dcf9;
+        border-radius: 7px;
+        background: #eaf0ff;
+        color: #2647b7;
+        min-height: 44px;
+        padding: 4px 9px;
+      }
+      .filter-tag:hover:not(:disabled) {
+        background: #dde7ff;
+      }
+      .status {
+        display: none;
+        margin-bottom: 14px;
+        padding: 13px 16px;
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.7;
+      }
+      .status.visible {
+        display: block;
+      }
+      .status.error {
+        color: #912c24;
+        background: #fff5f3;
+        border-color: #ebc6c0;
+      }
+      .status button {
+        margin: 9px 8px 0 0;
+        min-height: 44px;
+      }
+      .table-card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #fff;
+        overflow: hidden;
+      }
+      .table-scroll {
+        position: relative;
+        max-height: max(280px, calc(100dvh - 320px));
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scrollbar-color: #b7c0d0 #f1f3f6;
+      }
+      .offers-table {
+        min-width: 1000px;
+      }
+      .grid-row {
+        display: grid;
+        grid-template-columns: 1.35fr 0.5fr 1.1fr 1.1fr 1.9fr 84px 1fr;
+        gap: 12px;
+        padding: 12px 16px;
+        align-items: center;
+        font-size: 13px;
+      }
+      .table-head {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        box-shadow: 0 1px 0 var(--border);
+        min-height: 44px;
+        background: #fafbfc;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      .offer-row {
+        border-top: 1px solid var(--border);
+        min-height: 88px;
+      }
+      .offer-row:hover {
+        background: #fafbff;
+      }
+      .grid-row > [role='cell'] {
+        min-width: 0;
+        line-height: 1.5;
+      }
+      .prefix-button {
+        font-family: var(--mono);
+        font-size: 14px;
+        font-weight: 600;
+        padding: 0;
+        border: 0;
+        background: none;
+        text-align: left;
+        border-radius: 4px;
+        min-height: 44px;
+        color: var(--ink);
+        overflow-wrap: anywhere;
+      }
+      .prefix-button:hover:not(:disabled) {
+        background: none;
+        color: var(--accent);
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+      .cell-sub {
+        font-size: 12px;
+        color: var(--muted);
+        display: block;
+        margin-top: 4px;
+        line-height: 1.5;
+        overflow-wrap: anywhere;
+      }
+      .prefix-cell .cell-sub {
+        margin-top: -2px;
+      }
+      .price-main {
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        font-size: 13px;
+        overflow-wrap: anywhere;
+      }
+      .unit {
+        font-size: 11px;
+        font-weight: 400;
+        color: var(--muted);
+      }
+      .checks-run {
+        width: 100%;
+        margin-top: 12px;
+        font-size: 12px;
+      }
+      .checks-method {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        font-size: 11px;
+      }
+      .checks-evidence {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 10px;
+        color: var(--muted);
+        border: 0;
+        padding: 0;
+        background: transparent;
+        min-height: 44px;
+      }
+      .checks {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 5px;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 7px;
+        border-radius: 5px;
+        line-height: 1.5;
+        white-space: nowrap;
+      }
+      .badge.ok {
+        background: var(--ok-bg);
+        color: var(--ok);
+      }
+      .badge.warning {
+        background: var(--warn-bg);
+        color: var(--warn);
+      }
+      .badge.neutral {
+        background: var(--neutral-bg);
+        color: var(--neutral);
+      }
+      .check-caption {
+        font-size: 10px;
+        color: var(--muted);
+        margin-top: 5px;
+      }
+      .source-link {
+        color: var(--ink);
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        font-size: 12px;
+        font-weight: 500;
+        overflow-wrap: anywhere;
+      }
+      .source-link:hover {
+        color: var(--accent);
+      }
+      .history-cell {
+        min-height: 44px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .sparkline {
+        display: block;
+        width: 72px;
+        height: 24px;
+        overflow: visible;
+      }
+      .history-label {
+        font-size: 10px;
+        color: var(--muted);
+        margin-top: 5px;
+        white-space: nowrap;
+      }
+      .history-retry {
+        min-height: 44px;
+        border: 0;
+        background: none;
+        font-size: 11px;
+        padding: 0;
+        color: var(--muted);
+      }
+      .table-footer {
+        min-height: 68px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        gap: 16px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .pagination {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .pagination button {
+        font-size: 12px;
+        padding: 0 13px;
+      }
+      .page-number {
+        font-size: 11px;
+        margin-right: 5px;
+        font-variant-numeric: tabular-nums;
+      }
+      .data-note {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 13px;
+        line-height: 1.8;
+      }
+      .data-note a {
+        color: var(--muted);
+        text-decoration: underline;
+      }
+      .empty {
+        padding: 60px 24px;
+        text-align: center;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        min-width: 1000px;
+      }
+      .empty h2 {
+        font-size: 18px;
+        color: var(--ink);
+        margin-bottom: 10px;
+      }
+      .empty button {
+        margin-top: 18px;
+      }
+      .skeleton {
+        height: 12px;
+        max-width: 100%;
+        background: #e9ecf1;
+        border-radius: 4px;
+        animation: pulse 1.5s infinite;
+      }
+      .skeleton.short {
+        width: 65%;
+      }
+      @keyframes pulse {
+        50% {
+          opacity: 0.5;
+        }
+      }
+      .footer-note {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 2px 32px 24px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      dialog {
+        width: min(820px, calc(100% - 32px));
+        max-height: calc(100dvh - 32px);
+        padding: 0;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        color: var(--ink);
+        background: #fff;
+        box-shadow: 0 20px 80px #0e11162b;
+      }
+      dialog::backdrop {
+        background: #0e11168c;
+      }
+      .dialog-head {
+        position: sticky;
+        top: 0;
+        z-index: 4;
+        background: #fff;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 23px 24px 18px;
+        border-bottom: 1px solid var(--border);
+      }
+      .dialog-head h2 {
+        line-height: 1.5;
+        overflow-wrap: anywhere;
+      }
+      .dialog-close {
+        width: 44px;
+        padding: 0;
+        font-size: 23px;
+        flex-shrink: 0;
+      }
+      .dialog-body {
+        padding: 24px;
+      }
+      .dialog-body h3 {
+        font-size: 14px;
+        margin: 24px 0 12px;
+      }
+      .dialog-body h3:first-child {
+        margin-top: 0;
+      }
+      .dialog-body p {
+        font-size: 13px;
+      }
+      .dialog-body .note {
+        padding: 13px 15px;
+        border: 1px solid var(--border);
+        background: #f8f9fb;
+        border-radius: 8px;
+        color: var(--muted);
+        font-size: 12px;
+        margin: 16px 0;
+      }
+      .detail-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 16px 24px;
+        margin: 16px 0 22px;
+      }
+      .detail-grid dt {
+        font-size: 11px;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+      .detail-grid dd {
+        margin: 0;
+        font-size: 13px;
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+      }
+      .quote-card {
+        padding: 17px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        margin: 12px 0;
+      }
+      .quote-card h3 {
+        margin: 0;
+        font-size: 18px;
+      }
+      .quote-card .detail-grid {
+        margin-bottom: 0;
+      }
+      .detail-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 18px 0 10px;
+      }
+      .button-link {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 44px;
+        padding: 10px 15px;
+        border: 1px solid var(--control);
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .button-link.primary {
+        color: #fff;
+      }
+      .button-link:hover {
+        text-decoration: none;
+        background: #f0f3fc;
+      }
+      .button-link.primary:hover {
+        background: #2144c7;
+      }
+      .provider-card {
+        border-bottom: 1px solid var(--border);
+        padding: 18px 0;
+      }
+      .provider-card:first-child {
+        padding-top: 0;
+      }
+      .provider-card:last-child {
+        border: 0;
+      }
+      .provider-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+      }
+      .provider-title h3 {
+        margin: 0;
+      }
+      .provider-card p {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .lookup-form {
+        display: flex;
+        gap: 10px;
+        margin: 15px 0;
+      }
+      .lookup-form input {
+        flex: 1;
+      }
+      .lookup-result {
+        font: 12px/1.6 var(--mono);
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        max-height: 420px;
+        overflow: auto;
+        padding: 16px;
+        background: #f4f5f7;
+        border-radius: 8px;
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 12px;
+        overflow-wrap: anywhere;
+      }
+      .api-links {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 15px 0;
+      }
+      @media (min-width: 1600px) {
+        .header {
+          padding-left: max(32px, calc((100vw - 1440px) / 2 + 32px));
+          padding-right: max(32px, calc((100vw - 1440px) / 2 + 32px));
+        }
+      }
+      @media (max-width: 1279px) {
+        .header {
+          gap: 16px;
+          padding: 10px 24px;
+        }
+        .nav {
+          gap: 0;
+        }
+        .nav a {
+          padding: 0 7px;
+          font-size: 13px;
+        }
+        .header-search {
+          width: 280px;
+          flex-basis: 280px;
+        }
+        .layout {
+          padding: 24px;
+          gap: 20px;
+        }
+        .sidebar {
+          width: 240px;
+          flex-basis: 240px;
+        }
+        .page-heading {
+          align-items: flex-start;
+          flex-wrap: wrap;
+        }
+        .heading-controls {
+          margin-top: 1px;
+        }
+        .footer-note {
+          padding: 0 24px 24px;
+        }
+      }
+      @media (max-width: 1023px) {
+        .header {
+          flex-wrap: wrap;
+          gap: 10px 18px;
+        }
+        .header-search {
+          flex: 1;
+          margin-left: auto;
+          min-width: 230px;
+        }
+        .nav {
+          order: 3;
+          flex-basis: 100%;
+        }
+        .nav a {
+          padding: 0 13px;
+        }
+        .layout {
+          flex-direction: column;
+        }
+        .sidebar {
+          position: static;
+          max-height: none;
+          width: 100%;
+          flex-basis: auto;
+        }
+        .filter-sections {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        .filter-section {
+          border-right: 1px solid var(--border);
+        }
+        .main {
+          width: 100%;
+        }
+        .filter-heading {
+          padding: 8px 18px;
+        }
+        .page-heading {
+          align-items: center;
+        }
+      }
+      @media (max-width: 639px) {
+        .header {
+          padding: 10px 16px;
+          gap: 10px 12px;
+        }
+        .logo {
+          font-size: 18px;
+        }
+        .sign-in {
+          margin-left: auto;
+        }
+        .header-search {
+          order: 4;
+          flex-basis: 100%;
+          min-width: 0;
+        }
+        .header-search input {
+          font-size: 16px;
+        }
+        .header-search input::placeholder {
+          font-size: 11px;
+        }
+        .nav {
+          gap: 1px;
+          overflow-x: auto;
+          min-width: 0;
+        }
+        .nav a {
+          padding: 0 10px;
+          font-size: 13px;
+        }
+        .layout {
+          padding: 18px 16px;
+          gap: 20px;
+        }
+        .filter-sections {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .filter-section {
+          padding: 16px 12px;
+        }
+        .chips {
+          gap: 7px;
+        }
+        .chip {
+          padding: 0 10px;
+          min-width: 44px;
+          font-size: 11px;
+        }
+        .type-chips .chip {
+          min-width: 61px;
+        }
+        .price-pair {
+          gap: 7px;
+        }
+        .price-pair input {
+          padding: 10px 8px;
+        }
+        input,
+        select {
+          font-size: 16px;
+        }
+        .small-label {
+          font-size: 11px;
+        }
+        .check-label {
+          font-size: 11px;
+          gap: 8px;
+        }
+        .source-count {
+          font-size: 10px;
+        }
+        .page-heading {
+          gap: 16px;
+          margin-bottom: 18px;
+        }
+        h1 {
+          font-size: 28px;
+        }
+        .subtitle {
+          font-size: 12px;
+        }
+        .heading-controls {
+          width: 100%;
+          justify-content: space-between;
+          gap: 10px;
+        }
+        .sort {
+          width: auto;
+          flex: 1;
+          max-width: 220px;
+          font-size: 12px;
+        }
+        .heading-controls button {
+          font-size: 12px;
+        }
+        .toolbar {
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+        .catalogue-search {
+          max-width: none;
+          flex-basis: 100%;
+        }
+        .catalogue-search input {
+          font-size: 16px;
+        }
+        .catalogue-search input::placeholder {
+          font-size: 12px;
+        }
+        .toolbar-right {
+          width: 100%;
+          justify-content: space-between;
+        }
+        .filter-tag {
+          min-height: 44px;
+        }
+        .table-footer {
+          padding: 12px;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+        .pagination {
+          margin-left: auto;
+        }
+        .pagination button {
+          padding: 0 11px;
+        }
+        .data-note {
+          font-size: 11px;
+        }
+        .footer-note {
+          padding: 0 16px 24px;
+          line-height: 1.8;
+        }
+        .dialog-head,
+        .dialog-body {
+          padding: 18px;
+        }
+        .dialog-head h2 {
+          font-size: 18px;
+        }
+        .detail-grid {
+          gap: 17px 16px;
+        }
+        .detail-grid dd {
+          font-size: 12px;
+        }
+        .lookup-form {
+          flex-wrap: wrap;
+        }
+        .lookup-form input {
+          flex-basis: 100%;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+
+      .active-filters:empty {
+        display: none;
+      }
+      .mobile-filter-toggle {
+        display: none;
+        margin-left: auto;
+        color: var(--accent);
+      }
+      @media (max-width: 1023px) {
+        .mobile-filter-toggle {
+          display: inline-flex;
+          align-items: center;
+        }
+        .sidebar:not(.expanded) .filter-sections {
+          display: block;
+        }
+        .sidebar:not(.expanded) .filter-section:not(:first-child) {
+          display: none;
+        }
+        .sidebar:not(.expanded) .filter-section:first-child {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px 18px;
+          border: 0;
+          gap: 16px;
+        }
+        .sidebar:not(.expanded) .filter-section:first-child .filter-title {
+          margin: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to offers</a>
+    <header class="header">
+      <a class="logo" href="/" aria-label="Subregator home"
+        ><span class="logo-mark" aria-hidden="true"></span>subregator</a
+      >
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#offers" aria-current="page">Offers</a><a href="#lookup">Lookup</a
+        ><a href="#providers">Providers</a
+        ><a href="https://api.subregator.com/openapi.json" target="_blank" rel="noopener noreferrer"
+          >API<span class="sr-only"> (new tab)</span></a
+        ><a href="#mcp">MCP</a><a href="#docs">Docs</a>
+      </nav>
+      <form id="header-search" class="header-search" role="search" aria-label="Network lookup">
+        <label class="sr-only" for="lookup-search">Look up a prefix or ASN</label>
+        <input
+          id="lookup-search"
+          name="resource"
+          placeholder="Look up a prefix or ASN, e.g. 203.0.113.0/24"
+          maxlength="120"
+          autocomplete="off"
+        />
+        <button type="submit" class="search-submit" aria-label="Look up network">→</button>
+      </form>
+      <button
+        class="sign-in"
+        disabled
+        title="Accounts are not available. The catalogue is public and requires no sign-in."
+      >
+        Sign in
+      </button>
+    </header>
+    <div class="layout">
+      <aside class="sidebar" aria-label="Offer filters">
+        <div class="filter-heading">
+          <h2>Filters</h2>
+          <button
+            id="toggle-filters"
+            class="text-button mobile-filter-toggle"
+            aria-expanded="false"
+            aria-controls="filter-sections"
+          >
+            Show all</button
+          ><button id="reset-filters" class="text-button">Reset all</button>
+        </div>
+        <div class="filter-sections" id="filter-sections">
+          <section class="filter-section" aria-labelledby="type-label">
+            <h3 id="type-label" class="filter-title">Type</h3>
+            <div class="chips type-chips" id="type-chips">
+              <button class="chip" data-type="lease" aria-pressed="true">Lease</button
+              ><button class="chip" data-type="purchase" aria-pressed="false">Buy</button>
+            </div>
+          </section>
+          <section class="filter-section" aria-labelledby="rir-label">
+            <h3 id="rir-label" class="filter-title">RIR</h3>
+            <div class="chips" id="rir-chips">
+              <button class="chip" data-rir="RIPE NCC" aria-pressed="false">RIPE</button
+              ><button class="chip" data-rir="ARIN" aria-pressed="false">ARIN</button
+              ><button class="chip" data-rir="APNIC" aria-pressed="false">APNIC</button
+              ><button class="chip" data-rir="LACNIC" aria-pressed="false">LACNIC</button
+              ><button class="chip" data-rir="AFRINIC" aria-pressed="false">AFRINIC</button>
+            </div>
+          </section>
+          <section class="filter-section" aria-labelledby="size-label">
+            <h3 id="size-label" class="filter-title">Size</h3>
+            <div class="chips" id="size-chips">
+              <button class="chip" data-size="24" aria-pressed="false">/24</button
+              ><button class="chip" data-size="23" aria-pressed="false">/23</button
+              ><button class="chip" data-size="22" aria-pressed="false">/22</button
+              ><button class="chip" data-size="21" aria-pressed="false">/21</button
+              ><button
+                class="chip"
+                data-size="20+"
+                aria-pressed="false"
+                title="/20 or larger blocks (shorter prefixes)"
+              >
+                /20+
+              </button>
+            </div>
+          </section>
+          <section class="filter-section" aria-labelledby="price-label">
+            <h3 id="price-label" class="filter-title">Price per IP</h3>
+            <div class="price-pair">
+              <div>
+                <label class="small-label" for="min-price">Min</label
+                ><input
+                  id="min-price"
+                  inputmode="decimal"
+                  placeholder="0.00"
+                  autocomplete="off"
+                  aria-describedby="price-help price-error"
+                />
+              </div>
+              <div>
+                <label class="small-label" for="max-price">Max</label
+                ><input
+                  id="max-price"
+                  inputmode="decimal"
+                  placeholder="Any"
+                  autocomplete="off"
+                  aria-describedby="price-help price-error"
+                />
+              </div>
+            </div>
+            <p id="price-help" class="filter-help">USD / IP / month. Base price only.</p>
+            <p id="price-error" class="field-error" role="alert" hidden></p>
+          </section>
+          <section class="filter-section" aria-labelledby="checks-label">
+            <h3 id="checks-label" class="filter-title">Checks</h3>
+            <label class="check-label"
+              ><input type="checkbox" data-check="bgp" />BGP announced</label
+            >
+            <label class="check-label"
+              ><input type="checkbox" data-check="rpki" />RPKI valid (all origins)</label
+            >
+            <label class="check-label"
+              ><input type="checkbox" data-check="blocklist" />Not listed in DROP</label
+            >
+            <button id="verify-checks" class="checks-run">Check next 25</button>
+            <button id="cancel-checks" class="text-button" hidden>Cancel checks</button>
+            <p id="checks-progress" class="filter-help" role="status">
+              Checks run on published prefixes only.
+            </p>
+            <p class="filter-help">
+              Only fresh, confirmed results pass. DROP covers one named feed, not every blocklist.
+              No reputation scores.
+            </p>
+            <a href="#checks" class="checks-method">Sources & evidence</a>
+          </section>
+          <section class="filter-section" aria-labelledby="source-label">
+            <h3 id="source-label" class="filter-title">Source</h3>
+            <div id="source-filters" aria-busy="true">
+              <p class="filter-help">Loading providers…</p>
+            </div>
+          </section>
+        </div>
+      </aside>
+      <main class="main" id="main">
+        <div class="page-heading">
+          <div>
+            <h1>Offers</h1>
+            <p class="subtitle" id="subtitle" role="status">Connecting to the live catalogue…</p>
+          </div>
+          <div class="heading-controls">
+            <label for="sort" class="sr-only">Sort offers</label
+            ><select
+              id="sort"
+              class="sort"
+              title="Provider update time, or observation time when unavailable"
+            >
+              <option value="newest">Newest change</option>
+              <option value="price_asc">Price, low to high</option>
+              <option value="price_desc">Price, high to low</option></select
+            ><button
+              class="primary"
+              disabled
+              title="Alerts are not available in the read-only API."
+            >
+              Create alert
+            </button>
+          </div>
+        </div>
+        <div class="toolbar">
+          <form
+            id="catalogue-search"
+            class="catalogue-search"
+            role="search"
+            aria-label="Search offers"
+          >
+            <label class="sr-only" for="offer-search">Search prefix or provider</label
+            ><input
+              id="offer-search"
+              type="search"
+              placeholder="Search prefix or provider…"
+              maxlength="200"
+              autocomplete="off"
+            /><button type="submit" aria-label="Search offers">Search</button>
+          </form>
+          <div class="toolbar-right">
+            <div class="currency">
+              <label for="currency">Currency</label
+              ><select id="currency">
+                <option>USD</option>
+              </select>
+            </div>
+            <button id="refresh" class="refresh">Refresh</button>
+          </div>
+        </div>
+        <div
+          id="active-filters"
+          role="group"
+          class="active-filters"
+          aria-label="Active filters"
+        ></div>
+        <div id="status" class="status" role="status"></div>
+        <div class="table-card">
+          <div
+            class="table-scroll"
+            tabindex="0"
+            role="region"
+            aria-label="Offers table, scroll horizontally to see all columns"
+          >
+            <div
+              class="offers-table"
+              role="table"
+              aria-label="IPv4 offers"
+              aria-colcount="7"
+              id="offers-table"
+              aria-busy="true"
+            >
+              <div class="grid-row table-head" role="row">
+                <div role="columnheader">Prefix</div>
+                <div role="columnheader">IPs</div>
+                <div role="columnheader">Terms</div>
+                <div role="columnheader">Price</div>
+                <div role="columnheader">Checks</div>
+                <div role="columnheader">30 days</div>
+                <div role="columnheader">Source</div>
+              </div>
+              <div id="table-body" role="rowgroup"></div>
+            </div>
+          </div>
+          <div class="table-footer">
+            <span id="showing" role="status">Loading offers…</span>
+            <div class="pagination">
+              <span id="page-number" class="page-number"></span
+              ><button id="previous" disabled>Previous</button
+              ><button id="next" disabled>Next</button>
+            </div>
+          </div>
+        </div>
+        <p class="data-note">
+          Prices use the selected currency; no exchange rates are applied. Lease prices are monthly
+          equivalents. Taxes, fees and deposits are extra unless specified.
+          <a href="#docs">Data & coverage</a>
+        </p>
+      </main>
+    </div>
+    <footer class="footer-note">
+      Subregator aggregates information. Confirm availability and terms with the seller. We do not
+      sell IPs or handle payments.
+    </footer>
+    <dialog id="dialog" aria-labelledby="dialog-title">
+      <div class="dialog-head">
+        <h2 id="dialog-title"></h2>
+        <button id="dialog-close" class="dialog-close" aria-label="Close dialog">×</button>
+      </div>
+      <div class="dialog-body" id="dialog-body"></div>
+    </dialog>
+    <noscript
+      ><p class="status visible">Enable JavaScript to load the live offers catalogue.</p></noscript
+    >
+    <script>
+      'use strict';
+      const Data = (() => {
+        function safeURL(value) {
+          try {
+            const u = new URL(value);
+            return ['http:', 'https:'].includes(u.protocol) && !u.username && !u.password
+              ? u.href
+              : null;
+          } catch {
+            return null;
+          }
+        }
+        function moneyValue(price) {
+          if (!price) return null;
+          if (
+            !Number.isSafeInteger(price.amount_minor) ||
+            price.amount_minor < 0 ||
+            !Number.isInteger(price.minor_unit) ||
+            price.minor_unit < 0 ||
+            price.minor_unit > 6 ||
+            !/^[A-Z]{3}$/.test(price.currency)
+          )
+            throw new Error('Unsupported price precision in the API response.');
+          return {
+            n: BigInt(price.amount_minor),
+            d: 10n ** BigInt(price.minor_unit),
+            currency: price.currency
+          };
+        }
+        function ratio(offer, quote) {
+          const price = moneyValue(quote?.price);
+          if (
+            !price ||
+            !/^\d+$/.test(offer.resource.address_count) ||
+            BigInt(offer.resource.address_count) === 0n
+          )
+            return null;
+          const months = offer.model === 'lease' ? quote.billing_months : 1;
+          if (!Number.isSafeInteger(months) || months < 1) return null;
+          return { ...price, d: price.d * BigInt(offer.resource.address_count) * BigInt(months) };
+        }
+        function compare(a, b) {
+          if (!a) return b ? 1 : 0;
+          if (!b) return -1;
+          if (a.currency !== b.currency) return 0;
+          const x = a.n * b.d,
+            y = b.n * a.d;
+          return x < y ? -1 : x > y ? 1 : 0;
+        }
+        function best(offer, currency) {
+          return (
+            (offer.quotes || [])
+              .filter((q) => q.price?.currency === currency)
+              .sort((a, b) => compare(ratio(offer, a), ratio(offer, b)))[0] || null
+          );
+        }
+        function decimal(value) {
+          if (value === '') return null;
+          if (!/^\d{1,12}(\.\d{1,6})?$/.test(value))
+            throw new Error('Use a non-negative price with up to six decimal places.');
+          const [whole, part = ''] = value.split('.');
+          return { n: BigInt(whole) * 1000000n + BigInt(part.padEnd(6, '0')), d: 1000000n };
+        }
+        function digits(value, places = 2) {
+          const scale = 10n ** BigInt(places),
+            scaled = (value.n * scale + value.d / 2n) / value.d;
+          const whole = (scaled / scale).toLocaleString('en-US');
+          return places ? whole + '.' + (scaled % scale).toString().padStart(places, '0') : whole;
+        }
+        function money(price) {
+          const v = moneyValue(price);
+          return v ? v.currency + ' ' + digits(v, Math.max(2, price.minor_unit)) : 'On request';
+        }
+        function unitPrice(value) {
+          if (!value) return 'On request';
+          const symbols = { USD: '$', EUR: '€', GBP: '£' };
+          const approximate = (value.n * 10000n) % value.d !== 0n;
+          return (
+            (approximate ? '≈ ' : '') +
+            (symbols[value.currency] || value.currency + ' ') +
+            digits(value, 4)
+          );
+        }
+        function isFresh(check, now = Date.now()) {
+          const observed = Date.parse(check?.observed_at),
+            expiry = Date.parse(check?.expires_at);
+          return (
+            check?.freshness === 'fresh' &&
+            Number.isFinite(observed) &&
+            observed <= now + 60000 &&
+            Number.isFinite(expiry) &&
+            expiry > now &&
+            observed <= expiry
+          );
+        }
+        function passesChecks(offer, selected, record, now = Date.now()) {
+          if (!selected?.size) return true;
+          if (!offer.resource.prefix || record?.resource !== offer.resource.prefix) return false;
+          const passing = { bgp: 'announced', rpki: 'valid', blocklist: 'not_listed' };
+          return [...selected].every(
+            (key) =>
+              passing[key] && isFresh(record[key], now) && record[key].status === passing[key]
+          );
+        }
+        function filter(offers, providers, state, reports = new Map(), now = Date.now()) {
+          const min = decimal(state.min),
+            max = decimal(state.max);
+          if (min && max && min.n * max.d > max.n * min.d)
+            throw new Error('Minimum price must not exceed maximum price.');
+          const query = state.q.toLowerCase().trim();
+          const rows = [];
+          for (const offer of offers) {
+            if (offer.resource.family !== 4 || offer.model !== state.model) continue;
+            if (state.rirs.size && !state.rirs.has(offer.resource.rir)) continue;
+            if (
+              state.sizes.size &&
+              !state.sizes.has(String(offer.resource.prefix_length)) &&
+              !(state.sizes.has('20+') && offer.resource.prefix_length <= 20)
+            )
+              continue;
+            if (state.sources && !state.sources.has(offer.provider_id)) continue;
+            const provider = providers.get(offer.provider_id);
+            if (
+              query &&
+              ![offer.resource.prefix || '', offer.provider_id, provider?.name || ''].some((v) =>
+                v.toLowerCase().includes(query)
+              )
+            )
+              continue;
+            const quote = best(offer, state.currency),
+              price = ratio(offer, quote);
+            if (!quote && offer.quotes.some((q) => q.price)) continue;
+            if ((min || max) && !price) continue;
+            if (
+              (min && price.n * min.d < min.n * price.d) ||
+              (max && price.n * max.d > max.n * price.d)
+            )
+              continue;
+            if (!passesChecks(offer, state.checks, reports.get(offer.resource.prefix), now))
+              continue;
+            rows.push({ offer, provider, quote, price });
+          }
+          rows.sort((a, b) => {
+            if (state.sort.startsWith('price')) {
+              if (!a.price || !b.price)
+                return compare(a.price, b.price) || a.offer.id.localeCompare(b.offer.id);
+              const value = compare(a.price, b.price) * (state.sort === 'price_desc' ? -1 : 1);
+              return value || a.offer.id.localeCompare(b.offer.id);
+            }
+            return (
+              new Date(b.offer.source_updated_at || b.offer.observed_at) -
+                new Date(a.offer.source_updated_at || a.offer.observed_at) ||
+              a.offer.id.localeCompare(b.offer.id)
+            );
+          });
+          return rows;
+        }
+        function historyPoints(events, offer, quote, currency, since) {
+          if (!quote || quote.price?.currency !== currency) return [];
+          const points = [];
+          for (const event of events) {
+            if (['removed', 'relisted', 'resource_changed'].includes(event.type)) return [];
+            for (const [record, time] of [
+              [event.before, event.before?.observed_at],
+              [event.after, event.observed_at]
+            ]) {
+              if (
+                !record ||
+                record.model !== offer.model ||
+                record.resource.address_count !== offer.resource.address_count
+              )
+                continue;
+              const q = record.quotes?.find(
+                (q) =>
+                  q.id === quote.id &&
+                  q.price?.currency === currency &&
+                  q.billing_months === quote.billing_months
+              );
+              const price = ratio(record, q),
+                at = Date.parse(time);
+              if (price && at >= since)
+                points.push({ at, value: Number(price.n) / Number(price.d) });
+            }
+          }
+          const price = ratio(offer, quote),
+            at = Date.parse(offer.observed_at);
+          if (price && at >= since) points.push({ at, value: Number(price.n) / Number(price.d) });
+          points.sort((a, b) => a.at - b.at);
+          return points.filter(
+            (p, i) => !i || p.at !== points[i - 1].at || p.value !== points[i - 1].value
+          );
+        }
+        return {
+          safeURL,
+          moneyValue,
+          ratio,
+          compare,
+          best,
+          decimal,
+          digits,
+          money,
+          unitPrice,
+          filter,
+          historyPoints,
+          isFresh,
+          passesChecks
+        };
+      })();
+
+      if (typeof document !== 'undefined')
+        (() => {
+          const $ = (id) => document.getElementById(id);
+          const PAGE_SIZE = 25,
+            API = '/api/v1/';
+          const providers = new Map(),
+            historyCache = new Map(),
+            checkReports = new Map(),
+            checkAttempts = new Map();
+          let checksController = null,
+            checksGeneration = 0,
+            checksRunning = false,
+            checksNote = '',
+            checksBlockedUntil = 0;
+          let offers = [],
+            rows = [],
+            page = 0,
+            loadController = null,
+            loaded = false,
+            loadGeneration = 0,
+            dialogReturnFocus = null,
+            renderedSearch = location.search;
+          let state = readState(),
+            historyActive = 0;
+          const historyQueue = [];
+          const historyObserver = new IntersectionObserver(
+            (entries) => {
+              for (const entry of entries)
+                if (entry.isIntersecting) {
+                  historyObserver.unobserve(entry.target);
+                  const job = entry.target._historyJob;
+                  if (job) {
+                    historyQueue.push(job);
+                    pumpHistory();
+                  }
+                }
+            },
+            { rootMargin: '120px' }
+          );
+          function el(tag, cls, text) {
+            const n = document.createElement(tag);
+            if (cls) n.className = cls;
+            if (text !== undefined && text !== null) n.textContent = String(text);
+            return n;
+          }
+          function human(value) {
+            return !value || value === 'unknown'
+              ? 'Not specified'
+              : String(value)
+                  .replaceAll('_', ' ')
+                  .replace(/^\w/, (c) => c.toUpperCase());
+          }
+          function country(code) {
+            if (!code) return 'Not specified';
+            try {
+              return new Intl.DisplayNames(['en'], { type: 'region' }).of(code) || code;
+            } catch {
+              return code;
+            }
+          }
+          function date(value) {
+            const d = new Date(value);
+            return !value || Number.isNaN(d.getTime())
+              ? 'Not recorded'
+              : d.toLocaleString('en-GB', {
+                  timeZone: 'UTC',
+                  dateStyle: 'medium',
+                  timeStyle: 'short'
+                }) + ' UTC';
+          }
+          function ago(value) {
+            const seconds = Math.max(0, (Date.now() - Date.parse(value)) / 1000);
+            return !Number.isFinite(seconds)
+              ? 'Not recorded'
+              : seconds < 60
+                ? 'just now'
+                : seconds < 3600
+                  ? Math.floor(seconds / 60) + ' min ago'
+                  : seconds < 86400
+                    ? Math.floor(seconds / 3600) + ' hr ago'
+                    : Math.floor(seconds / 86400) + ' days ago';
+          }
+          function bool(value) {
+            return value === true ? 'Yes' : value === false ? 'No' : 'Not specified';
+          }
+          function title(offer) {
+            return offer.resource.prefix || 'IPv4 /' + offer.resource.prefix_length;
+          }
+          function readState() {
+            const p = new URLSearchParams(location.search);
+            return {
+              model: p.get('model') === 'purchase' ? 'purchase' : 'lease',
+              currency: /^[A-Z]{3}$/.test(p.get('currency') || '') ? p.get('currency') : 'USD',
+              checks: new Set(
+                (p.get('checks') || '')
+                  .split(',')
+                  .filter((k) => ['bgp', 'rpki', 'blocklist'].includes(k))
+              ),
+              rirs: new Set((p.get('rir') || '').split(',').filter(Boolean)),
+              sizes: new Set((p.get('size') || '').split(',').filter(Boolean)),
+              sources: p.has('source')
+                ? new Set((p.get('source') || '').split(',').filter(Boolean))
+                : null,
+              min: p.get('min') || '',
+              max: p.get('max') || '',
+              q: (p.get('q') || '').slice(0, 200),
+              sort: ['newest', 'price_asc', 'price_desc'].includes(p.get('sort'))
+                ? p.get('sort')
+                : 'newest'
+            };
+          }
+          function saveState() {
+            const p = new URLSearchParams();
+            if (state.model !== 'lease') p.set('model', state.model);
+            if (state.currency !== 'USD') p.set('currency', state.currency);
+            for (const [key, value] of [
+              ['rir', [...state.rirs].join(',')],
+              ['size', [...state.sizes].join(',')],
+              ['min', state.min],
+              ['max', state.max],
+              ['q', state.q]
+            ])
+              if (value) p.set(key, value);
+            if (state.sources) p.set('source', [...state.sources].sort().join(','));
+            if (state.checks.size) p.set('checks', [...state.checks].sort().join(','));
+            if (state.sort !== 'newest') p.set('sort', state.sort);
+            history.replaceState(
+              null,
+              '',
+              location.pathname + (p.size ? '?' + p : '') + location.hash
+            );
+            renderedSearch = location.search;
+          }
+          function status(message, error = false, retry = false) {
+            const box = $('status');
+            box.replaceChildren();
+            box.className = 'status' + (message ? ' visible' : '') + (error ? ' error' : '');
+            box.setAttribute('role', error ? 'alert' : 'status');
+            if (message) box.append(el('span', '', message));
+            if (retry) {
+              const button = el('button', '', loaded ? 'Refresh again' : 'Try again');
+              button.onclick = load;
+              box.append(el('br'), button);
+            }
+          }
+          async function request(path, signal) {
+            const controller = new AbortController();
+            const abort = () => controller.abort();
+            signal?.addEventListener('abort', abort, { once: true });
+            if (signal?.aborted) controller.abort();
+            const timeout = setTimeout(abort, path.startsWith('offer-checks?') ? 40000 : 20000);
+            try {
+              const response = await fetch(API + path, {
+                signal: controller.signal,
+                headers: { Accept: 'application/json' }
+              });
+              if (!response.ok) {
+                const messages = {
+                  400: 'The API rejected these parameters.',
+                  404: 'This listing is no longer in the current catalogue.',
+                  409: 'The catalogue changed during loading. Refresh to get one consistent snapshot.',
+                  429: 'The API is rate-limiting requests. Wait before trying again.',
+                  503: 'The API is temporarily busy.'
+                };
+                const error = new Error(
+                  messages[response.status] ||
+                    'The API is temporarily unavailable (' + response.status + ').'
+                );
+                error.status = response.status;
+                error.retryAfter = Math.min(
+                  300,
+                  Math.max(1, Number(response.headers.get('Retry-After')) || 60)
+                );
+                throw error;
+              }
+              return await response.json();
+            } finally {
+              clearTimeout(timeout);
+              signal?.removeEventListener('abort', abort);
+            }
+          }
+          function validateOffer(offer) {
+            if (
+              !offer ||
+              typeof offer.id !== 'string' ||
+              typeof offer.provider_id !== 'string' ||
+              !['lease', 'purchase'].includes(offer.model) ||
+              offer.resource?.family !== 4 ||
+              !/^\d+$/.test(offer.resource.address_count) ||
+              !Array.isArray(offer.quotes)
+            )
+              throw new Error('The API returned an unsupported offer record.');
+            for (const quote of offer.quotes) {
+              Data.moneyValue(quote.price);
+              if (!Number.isSafeInteger(quote.billing_months) || quote.billing_months < 0)
+                throw new Error('Invalid billing period in the API.');
+            }
+          }
+          async function load() {
+            cancelChecks();
+            loadController?.abort();
+            const controller = new AbortController();
+            loadController = controller;
+            const generation = ++loadGeneration;
+            $('refresh').disabled = true;
+            $('offers-table').setAttribute('aria-busy', 'true');
+            if (!loaded) skeleton();
+            status('Loading a consistent snapshot from the live API…');
+            try {
+              const [sourceData, first] = await Promise.all([
+                request('providers', controller.signal),
+                request('offers?family=4&limit=200&sort=id', controller.signal)
+              ]);
+              if (
+                !Array.isArray(sourceData.items) ||
+                !Array.isArray(first.items) ||
+                !Number.isInteger(first.total) ||
+                first.total < 0 ||
+                first.total > 100000 ||
+                typeof first.snapshot !== 'string'
+              )
+                throw new Error('The API returned an unsupported catalogue response.');
+              const batch = [...first.items];
+              let offset = 200;
+              while (offset < first.total) {
+                const offsets = Array.from(
+                  { length: Math.min(3, Math.ceil((first.total - offset) / 200)) },
+                  (_, i) => offset + i * 200
+                );
+                const pages = await Promise.all(
+                  offsets.map((at) =>
+                    request(
+                      'offers?' +
+                        new URLSearchParams({
+                          family: '4',
+                          limit: '200',
+                          sort: 'id',
+                          offset: String(at),
+                          snapshot: first.snapshot
+                        }),
+                      controller.signal
+                    )
+                  )
+                );
+                for (let i = 0; i < pages.length; i++) {
+                  const result = pages[i];
+                  if (
+                    result.snapshot !== first.snapshot ||
+                    result.total !== first.total ||
+                    result.offset !== offsets[i] ||
+                    !Array.isArray(result.items)
+                  )
+                    throw new Error('The catalogue changed while loading. Refresh to try again.');
+                  batch.push(...result.items);
+                }
+                offset += offsets.length * 200;
+                status(
+                  'Loading live offers: ' +
+                    Math.min(batch.length, first.total).toLocaleString('en-US') +
+                    ' of ' +
+                    first.total.toLocaleString('en-US') +
+                    '…'
+                );
+              }
+              if (generation !== loadGeneration) return;
+              if (
+                batch.length !== first.total ||
+                new Set(batch.map((o) => o.id)).size !== batch.length
+              )
+                throw new Error('The API returned an incomplete catalogue. Refresh to try again.');
+              batch.forEach(validateOffer);
+              historyCache.clear();
+              providers.clear();
+              sourceData.items.forEach((p) => providers.set(p.id, p));
+              offers = batch;
+              loaded = true;
+              $('source-filters').setAttribute('aria-busy', 'false');
+              cancelChecks();
+              syncControls();
+              render();
+              status('');
+              const hash = location.hash;
+              if (hash.startsWith('#offer=')) openOffer(decodeURIComponent(hash.slice(7)));
+              else if (['#providers', '#lookup', '#docs', '#mcp', '#checks'].includes(hash))
+                openPanel(hash.slice(1));
+            } catch (error) {
+              if (controller.signal.aborted) return;
+              status(
+                (loaded ? 'The previous snapshot is still displayed. ' : '') +
+                  (error.name === 'AbortError'
+                    ? 'The API request timed out. Please try again.'
+                    : error.message),
+                true,
+                true
+              );
+              if (!loaded) {
+                $('subtitle').textContent = 'Live catalogue unavailable';
+                $('table-body').replaceChildren();
+                $('showing').textContent = 'No data loaded';
+              }
+            } finally {
+              if (generation === loadGeneration) {
+                $('refresh').disabled = false;
+                $('offers-table').setAttribute('aria-busy', 'false');
+              }
+            }
+          }
+          function skeleton() {
+            const body = $('table-body');
+            body.replaceChildren();
+            for (let i = 0; i < 8; i++) {
+              const row = el('div', 'grid-row offer-row');
+              row.setAttribute('aria-hidden', 'true');
+              for (let j = 0; j < 7; j++)
+                row.append(el('div', 'skeleton' + (j % 2 ? ' short' : '')));
+              body.append(row);
+            }
+          }
+          function currencies(model) {
+            return [
+              ...new Set(
+                offers
+                  .filter((o) => o.model === model)
+                  .flatMap((o) => o.quotes.filter((q) => q.price).map((q) => q.price.currency))
+              )
+            ].sort();
+          }
+          function syncControls() {
+            $('offer-search').value = state.q;
+            $('min-price').value = state.min;
+            $('max-price').value = state.max;
+            $('sort').value = state.sort;
+            for (const input of document.querySelectorAll('[data-check]'))
+              input.checked = state.checks.has(input.dataset.check);
+            for (const button of document.querySelectorAll('[data-type]'))
+              button.setAttribute('aria-pressed', String(button.dataset.type === state.model));
+            for (const [key, set] of [
+              ['rir', state.rirs],
+              ['size', state.sizes]
+            ])
+              for (const button of document.querySelectorAll('[data-' + key + ']'))
+                button.setAttribute('aria-pressed', String(set.has(button.dataset[key])));
+            const select = $('currency');
+            select.replaceChildren();
+            for (const currency of [
+              ...new Set([...currencies(state.model), state.currency])
+            ].sort()) {
+              const option = el('option', '', currency);
+              option.value = currency;
+              select.append(option);
+            }
+            select.value = state.currency;
+            $('price-help').textContent =
+              state.currency +
+              ' / IP' +
+              (state.model === 'lease' ? ' / month' : '') +
+              '. Base price only.';
+            const sourceFilters = $('source-filters');
+            const focusedSource = document.activeElement?.dataset?.source;
+            sourceFilters.replaceChildren();
+            const active = [...providers.values()].filter(
+              (p) => p.source?.last_success || offers.some((o) => o.provider_id === p.id)
+            );
+            for (const provider of active) {
+              const label = el('label', 'check-label');
+              const input = el('input');
+              input.type = 'checkbox';
+              input.checked = !state.sources || state.sources.has(provider.id);
+              input.dataset.source = provider.id;
+              label.append(
+                input,
+                document.createTextNode(provider.name),
+                el(
+                  'span',
+                  'source-count',
+                  offers
+                    .filter((o) => o.provider_id === provider.id && o.model === state.model)
+                    .length.toLocaleString('en-US')
+                )
+              );
+              input.onchange = () => {
+                state.sources = new Set(
+                  [...sourceFilters.querySelectorAll('input:checked')].map((n) => n.dataset.source)
+                );
+                changed();
+              };
+              sourceFilters.append(label);
+            }
+            if (focusedSource)
+              Array.from(sourceFilters.querySelectorAll('input'))
+                .find((input) => input.dataset.source === focusedSource)
+                ?.focus({ preventScroll: true });
+            if (!active.length)
+              sourceFilters.append(el('p', 'filter-help', 'No successful source snapshots yet.'));
+          }
+          function changed(resetPage = true) {
+            cancelChecks();
+            checksNote = '';
+            if (resetPage) page = 0;
+            saveState();
+            syncControls();
+            render();
+          }
+          function renderTags() {
+            const box = $('active-filters');
+            box.replaceChildren();
+            const tags = [...state.rirs]
+              .map((v) => [v, () => state.rirs.delete(v)])
+              .concat([...state.sizes].map((v) => ['/' + v, () => state.sizes.delete(v)]));
+            for (const key of state.checks)
+              tags.push([
+                { bgp: 'BGP announced', rpki: 'RPKI valid', blocklist: 'Not listed in DROP' }[key],
+                () => state.checks.delete(key)
+              ]);
+            if (state.q) tags.push(['Search: ' + state.q, () => (state.q = '')]);
+            if (state.sources)
+              tags.push([state.sources.size + ' selected sources', () => (state.sources = null)]);
+            if (state.min || state.max)
+              tags.push([
+                'Price: ' + (state.min || '0') + ' – ' + (state.max || 'any'),
+                () => {
+                  state.min = '';
+                  state.max = '';
+                }
+              ]);
+            for (const [text, remove] of tags) {
+              const button = el('button', 'filter-tag', text + ' ×');
+              button.setAttribute('aria-label', 'Remove ' + text + ' filter');
+              button.onclick = () => {
+                remove();
+                changed();
+              };
+              box.append(button);
+            }
+          }
+          function render() {
+            if (!loaded) return;
+            const focusedRow = document.activeElement?.closest('.offer-row');
+            const focusId = focusedRow?.dataset.offerId;
+            const focusClass = document.activeElement?.classList.contains('checks-evidence')
+              ? '.checks-evidence'
+              : '.prefix-button';
+            renderTags();
+            $('price-error').hidden = true;
+            $('min-price').removeAttribute('aria-invalid');
+            $('max-price').removeAttribute('aria-invalid');
+            try {
+              rows = Data.filter(offers, providers, state, checkReports);
+            } catch (error) {
+              rows = [];
+              $('price-error').textContent = error.message;
+              $('price-error').hidden = false;
+              $('min-price').setAttribute('aria-invalid', 'true');
+              $('max-price').setAttribute('aria-invalid', 'true');
+            }
+            const pages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+            page = Math.max(0, Math.min(page, pages - 1));
+            const sourceCount = new Set(rows.map((r) => r.offer.provider_id)).size;
+            const lastSync = [...providers.values()]
+              .map((p) => p.source?.last_success)
+              .filter(Boolean)
+              .sort()
+              .at(-1);
+            $('subtitle').textContent =
+              rows.length.toLocaleString('en-US') +
+              (state.checks.size ? ' verified matches from ' : ' available offers from ') +
+              sourceCount +
+              ' ' +
+              (sourceCount === 1 ? 'source' : 'sources') +
+              ' · latest source sync ' +
+              ago(lastSync);
+            updateChecksProgress();
+            $('offers-table').setAttribute('aria-rowcount', String(rows.length + 1));
+            const body = $('table-body');
+            historyObserver.disconnect();
+            body.replaceChildren();
+            const visible = rows.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+            for (let i = 0; i < visible.length; i++)
+              body.append(renderRow(visible[i], page * PAGE_SIZE + i + 2));
+            if (!visible.length) {
+              const empty = el('div', 'empty');
+              empty.append(
+                el(
+                  'h2',
+                  '',
+                  state.checks.size
+                    ? 'No fresh verified matches.'
+                    : 'No offers match these filters.'
+                ),
+                el(
+                  'p',
+                  '',
+                  state.checks.size
+                    ? 'Only fresh passing checks are included. Check candidate prefixes to discover matches; unknown, stale and hidden prefixes do not pass.'
+                    : 'Try another currency, a wider price range, or fewer filters.'
+                )
+              );
+              const reset = el('button', '', 'Reset filters');
+              reset.onclick = resetFilters;
+              if (state.checks.size) {
+                const verify = el(
+                  'button',
+                  'primary',
+                  checksRunning ? 'Checking…' : 'Check next 25 candidates'
+                );
+                verify.disabled = checksRunning || Date.now() < checksBlockedUntil;
+                verify.onclick = () => verifyBatch();
+                empty.append(verify);
+              }
+              empty.append(reset);
+              body.append(empty);
+            }
+            const start = rows.length ? page * PAGE_SIZE + 1 : 0,
+              end = Math.min((page + 1) * PAGE_SIZE, rows.length);
+            $('showing').textContent =
+              'Showing ' +
+              start.toLocaleString('en-US') +
+              '–' +
+              end.toLocaleString('en-US') +
+              ' of ' +
+              rows.length.toLocaleString('en-US');
+            if (state.checks.size) $('showing').textContent += ' verified matches (checked subset)';
+            $('page-number').textContent = page + 1 + ' / ' + pages;
+            if (focusId) {
+              const nextRow = Array.from(body.querySelectorAll('.offer-row')).find(
+                (row) => row.dataset.offerId === focusId
+              );
+              if (nextRow) nextRow.querySelector(focusClass)?.focus({ preventScroll: true });
+            }
+            $('previous').disabled = page === 0;
+            $('next').disabled = page + 1 >= pages;
+          }
+          function renderRow(item, index) {
+            const { offer, provider, quote, price } = item;
+            const row = el('div', 'grid-row offer-row');
+            row.dataset.offerId = offer.id;
+            row.setAttribute('role', 'row');
+            row.setAttribute('aria-rowindex', String(index));
+            const cells = Array.from({ length: 7 }, () => {
+              const cell = el('div');
+              cell.setAttribute('role', 'cell');
+              row.append(cell);
+              return cell;
+            });
+            cells[0].className = 'prefix-cell';
+            const prefix = el('button', 'prefix-button', title(offer));
+            prefix.onclick = () => {
+              dialogReturnFocus = prefix;
+              navigate('offer=' + encodeURIComponent(offer.id));
+            };
+            prefix.setAttribute(
+              'aria-label',
+              'View ' + title(offer) + ' from ' + (provider?.name || offer.provider_id)
+            );
+            cells[0].append(prefix);
+            const locationLabel =
+              (offer.resource.rir === 'RIPE NCC' ? 'RIPE' : offer.resource.rir || 'RIR unknown') +
+              ' · ' +
+              (offer.geography?.country || 'Location unknown') +
+              (offer.geography?.basis === 'seller_country' ? ' (seller)' : '');
+            cells[0].append(el('span', 'cell-sub', locationLabel));
+            if (!offer.resource.prefix)
+              cells[0].append(el('span', 'cell-sub', 'Prefix undisclosed'));
+            cells[1].className = 'mono';
+            cells[1].textContent = BigInt(offer.resource.address_count).toLocaleString('en-US');
+            cells[2].append(el('span', '', offer.model === 'lease' ? 'Lease' : 'Buy'));
+            const terms = [];
+            if (quote?.minimum_months !== null && quote?.minimum_months !== undefined)
+              terms.push('Min ' + quote.minimum_months + ' mo');
+            if (offer.terms?.verification) terms.push('Verification');
+            if (offer.routing?.loa === 'included') terms.push('LOA included');
+            if (quote?.fees?.some((f) => f.kind === 'transfer')) terms.push('Transfer fee listed');
+            cells[2].append(el('span', 'cell-sub', terms.join(' · ') || 'Terms not specified'));
+            const mainPrice = el('span', 'price-main', Data.unitPrice(price));
+            if (price)
+              mainPrice.append(el('span', 'unit', offer.model === 'lease' ? ' /IP/mo' : ' /IP'));
+            cells[3].append(mainPrice);
+            if (quote?.price) {
+              const total = el(
+                'span',
+                'cell-sub',
+                Data.money(quote.price) +
+                  (offer.model === 'purchase'
+                    ? ' total'
+                    : quote.billing_months === 1
+                      ? ' /mo'
+                      : ' /' + quote.billing_months + ' mo')
+              );
+              total.title =
+                'Actual base amount billed by the provider; taxes, fees and deposits are separate.';
+              cells[3].append(total);
+            } else cells[3].append(el('span', 'cell-sub', 'Ask the seller'));
+            fillCheckCell(cells[4], offer);
+            cells[5].className = 'history-cell';
+            cells[5].append(el('span', 'history-label', 'Loading…'));
+            cells[5]._historyJob = { cell: cells[5], item };
+            historyObserver.observe(cells[5]);
+            const seller = external(
+              provider?.url,
+              provider?.name || offer.provider_id,
+              'source-link'
+            );
+            cells[6].append(seller, el('span', 'cell-sub', ago(offer.observed_at)));
+            const sourceDate = el(
+              'span',
+              'cell-sub',
+              offer.freshness === 'fresh'
+                ? 'Fresh observation'
+                : human(offer.freshness) + ' observation'
+            );
+            sourceDate.title = date(offer.observed_at);
+            if (offer.freshness !== 'fresh') cells[6].append(sourceDate);
+            return row;
+          }
+          function badge(text, type = 'neutral') {
+            return el('span', 'badge ' + type, text);
+          }
+          function external(url, text, cls = 'button-link') {
+            const href = Data.safeURL(url);
+            if (!href) return el('span', cls, text);
+            const link = el('a', cls, text);
+            link.href = href;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.append(el('span', 'sr-only', ' (opens in a new tab)'));
+            return link;
+          }
+          function cancelChecks() {
+            checksGeneration++;
+            checksController?.abort();
+            checksController = null;
+            checksRunning = false;
+          }
+          function candidates() {
+            try {
+              return Data.filter(offers, providers, { ...state, checks: new Set() });
+            } catch {
+              return [];
+            }
+          }
+          function updateChecksProgress() {
+            const list = candidates(),
+              publicPrefixes = new Set(list.map((r) => r.offer.resource.prefix).filter(Boolean));
+            const attempted = [...publicPrefixes].filter((prefix) =>
+              checkAttempts.has(prefix)
+            ).length;
+            const hidden = list.filter((r) => !r.offer.resource.prefix).length;
+            const remaining = [...publicPrefixes].filter((prefix) => !recentAttempt(prefix)).length;
+            const waiting = Math.max(0, Math.ceil((checksBlockedUntil - Date.now()) / 1000));
+            $('verify-checks').disabled =
+              !loaded || checksRunning || !!waiting || !publicPrefixes.size;
+            $('verify-checks').textContent = checksRunning
+              ? 'Checking…'
+              : waiting
+                ? 'Retry in ' + waiting + 's'
+                : remaining
+                  ? 'Check next ' + Math.min(25, remaining)
+                  : 'Recheck up to 25';
+            $('cancel-checks').hidden = !checksRunning;
+            $('checks-progress').textContent =
+              (checksNote ? checksNote + ' ' : '') +
+              attempted +
+              ' of ' +
+              publicPrefixes.size +
+              ' candidate prefixes attempted this session; ' +
+              hidden +
+              ' undisclosed. ' +
+              (state.checks.size
+                ? 'Only fresh passing observations match; other offers are excluded.'
+                : 'Choose filters or check a batch to inspect real evidence.');
+          }
+          function recentAttempt(prefix) {
+            const record = checkReports.get(prefix);
+            const selected = state.checks.size ? [...state.checks] : ['bgp', 'rpki', 'blocklist'];
+            return (
+              (record && selected.every((key) => Data.isFresh(record[key]))) ||
+              Date.now() - (checkAttempts.get(prefix) || 0) < 60000
+            );
+          }
+          async function verifyBatch(only = null) {
+            if (Date.now() < checksBlockedUntil) return;
+            cancelChecks();
+            const generation = checksGeneration;
+            const controller = new AbortController();
+            checksController = controller;
+            const unique = only || [
+              ...new Set(
+                candidates()
+                  .map((r) => r.offer.resource.prefix)
+                  .filter(Boolean)
+              )
+            ];
+            const pending = unique.filter((prefix) => !recentAttempt(prefix));
+            const targets = (pending.length ? pending : unique).slice(0, only ? 1 : 25);
+            if (!targets.length) {
+              checksNote = 'No public prefixes in this selection.';
+              render();
+              return;
+            }
+            checksRunning = true;
+            let completed = 0;
+            for (const prefix of targets) {
+              if (generation !== checksGeneration) break;
+              checksNote =
+                'Checking ' + (completed + 1) + ' of ' + targets.length + ' in this batch.';
+              render();
+              try {
+                const report = await request(
+                  'offer-checks?' + new URLSearchParams({ resource: prefix }),
+                  controller.signal
+                );
+                if (generation !== checksGeneration) break;
+                if (report.resource !== prefix || !report.bgp || !report.rpki || !report.blocklist)
+                  throw new Error('Invalid verification response');
+                checkReports.set(prefix, report);
+                checkAttempts.set(prefix, Date.now());
+                completed++;
+                if (checkReports.size > 2000) {
+                  const oldest = checkReports.keys().next().value;
+                  checkReports.delete(oldest);
+                  checkAttempts.delete(oldest);
+                }
+                if (report.retry_after) {
+                  checksBlockedUntil =
+                    Date.now() +
+                    Math.min(300, Math.max(1, Number(report.retry_after) || 60)) * 1000;
+                  checksNote = 'Upstream check budget reached. Completed evidence retained.';
+                  break;
+                }
+              } catch (error) {
+                if (controller.signal.aborted) break;
+                if (error.status === 429) {
+                  checksBlockedUntil = Date.now() + (error.retryAfter || 60) * 1000;
+                  checksNote = 'Check budget reached. Retry after the pause.';
+                  break;
+                }
+                checkAttempts.set(prefix, Date.now());
+                const unknown = {
+                  status: 'unavailable',
+                  freshness: 'unknown',
+                  observed_at: null,
+                  expires_at: null,
+                  reason: error.message
+                };
+                checkReports.set(prefix, {
+                  resource: prefix,
+                  bgp: { ...unknown },
+                  rpki: { ...unknown },
+                  blocklist: { ...unknown }
+                });
+                completed++;
+              }
+            }
+            if (generation === checksGeneration) {
+              checksRunning = false;
+              checksController = null;
+              if (Date.now() >= checksBlockedUntil)
+                checksNote =
+                  'Batch finished: ' +
+                  completed +
+                  ' prefixes attempted. Unknown or stale results do not pass.';
+              render();
+            }
+          }
+          function checkLabel(key, check) {
+            const status = check?.status || 'unverified';
+            const labels = {
+              bgp: {
+                announced: 'BGP announced',
+                not_announced: 'BGP not seen',
+                covering_route: 'BGP covering route'
+              },
+              rpki: {
+                valid: 'RPKI valid',
+                invalid: 'RPKI invalid',
+                not_found: 'No ROA',
+                mixed: 'RPKI mixed',
+                partial: 'RPKI partial',
+                not_applicable: 'RPKI n/a'
+              },
+              blocklist: { listed: 'DROP listed', not_listed: 'Not in DROP' }
+            };
+            const text =
+              labels[key]?.[status] ||
+              { bgp: 'BGP', rpki: 'RPKI', blocklist: 'DROP' }[key] +
+                ' ' +
+                human(status).toLowerCase();
+            return check?.observed_at && !Data.isFresh(check) && check.freshness !== 'unknown'
+              ? 'Stale: ' + text
+              : text;
+          }
+          function fillCheckCell(cell, offer) {
+            const report = checkReports.get(offer.resource.prefix),
+              badges = el('div', 'checks');
+            for (const key of ['bgp', 'rpki', 'blocklist']) {
+              const check = report?.[key],
+                fresh = Data.isFresh(check),
+                positive = { bgp: 'announced', rpki: 'valid', blocklist: 'not_listed' }[key];
+              const type =
+                fresh && check.status === positive
+                  ? 'ok'
+                  : check && ['invalid', 'listed'].includes(check.status)
+                    ? 'warning'
+                    : 'neutral';
+              const item = badge(checkLabel(key, check), type);
+              item.title = check
+                ? check.reason +
+                  ' · observed ' +
+                  date(check.observed_at) +
+                  ' · expires ' +
+                  date(check.expires_at)
+                : 'No independent observation yet';
+              badges.append(item);
+            }
+            cell.append(badges);
+            if (!offer.resource.prefix) {
+              cell.append(el('span', 'check-caption', 'Prefix undisclosed · cannot verify'));
+              return;
+            }
+            const button = el(
+              'button',
+              'checks-evidence',
+              report ? 'Sources & evidence' : 'Check this prefix'
+            );
+            button.setAttribute(
+              'aria-label',
+              (report ? 'View check evidence for ' : 'Check ') + title(offer)
+            );
+            button.onclick = () =>
+              report
+                ? openCheckDetails(offer.resource.prefix)
+                : verifyBatch([offer.resource.prefix]);
+            cell.append(button);
+          }
+          function openCheckDetails(prefix = null) {
+            const body = showDialog(
+              prefix ? 'Check evidence · ' + prefix : 'Check methods & sources'
+            );
+            body.append(
+              el(
+                'p',
+                'note',
+                'Only fresh, complete passing observations enter the selected filters. Unknown, stale, partial or missing results are excluded. A covering BGP route is not the exact offered route. RPKI covers observed origins, not ownership. DROP covers one feed, not every blocklist. No reputation score is computed.'
+              )
+            );
+            const report = prefix ? checkReports.get(prefix) : null;
+            if (!report && prefix)
+              body.append(
+                el('p', 'muted', 'No independent check has been recorded for this prefix.')
+              );
+            if (report)
+              for (const key of ['bgp', 'rpki', 'blocklist']) {
+                const check = report[key];
+                body.append(
+                  el('h3', '', checkLabel(key, check)),
+                  facts([
+                    ['Result', human(check.status)],
+                    [
+                      'Freshness',
+                      Data.isFresh(check)
+                        ? 'Fresh'
+                        : check.freshness === 'unknown'
+                          ? 'Unknown'
+                          : check.observed_at
+                            ? 'Stale'
+                            : 'Unknown'
+                    ],
+                    ['Observed', date(check.observed_at)],
+                    ['Expires', date(check.expires_at)],
+                    ['Source', check.source || 'No source observation'],
+                    ['Coverage', check.coverage || 'Unavailable'],
+                    ['Reason', check.reason || 'Not specified']
+                  ])
+                );
+                if (check.query_time)
+                  body.append(el('p', 'muted', 'RIS query time: ' + check.query_time));
+                if (check.source_updated_at)
+                  body.append(el('p', 'muted', 'Feed timestamp: ' + date(check.source_updated_at)));
+                if (check.copyright) body.append(el('p', 'muted', check.copyright));
+                if (check.origins?.length)
+                  body.append(el('pre', 'lookup-result', JSON.stringify(check.origins, null, 2)));
+                if (check.matches?.length)
+                  body.append(el('pre', 'lookup-result', JSON.stringify(check.matches, null, 2)));
+                if (check.source_url)
+                  body.append(external(check.source_url, 'Original source →', 'source-link'));
+              }
+            body.append(
+              el('h3', '', 'RIPEstat through Subregator'),
+              el(
+                'p',
+                '',
+                'Exact-prefix visibility and all observed origin ASN validations are checked through our existing API. Collector coverage and the four-origin API limit are disclosed; incomplete validation never passes.'
+              ),
+              external(
+                'https://stat.ripe.net/docs/data-api/api-endpoints/rpki-validation',
+                'RIPEstat validation documentation',
+                'source-link'
+              ),
+              el('h3', '', 'The Spamhaus Project · DROP IPv4'),
+              el(
+                'p',
+                '',
+                'The complete feed is checked for overlap with every address in the queried prefix. The original date and copyright accompany evidence. The feed is downloaded at most once per 24 hours, including across restarts; stale or failed refreshes never pass the negative filter.'
+              ),
+              external(
+                'https://www.spamhaus.org/faqs/do-not-route-or-peer-drop/',
+                'DROP coverage, attribution and refresh policy',
+                'source-link'
+              )
+            );
+          }
+          function resetFilters() {
+            state = {
+              model: 'lease',
+              currency: 'USD',
+              checks: new Set(),
+              rirs: new Set(),
+              sizes: new Set(),
+              sources: null,
+              min: '',
+              max: '',
+              q: '',
+              sort: 'newest'
+            };
+            changed();
+          }
+          async function pumpHistory() {
+            while (historyActive < 2 && historyQueue.length) {
+              const job = historyQueue.shift();
+              if (!job.cell.isConnected) continue;
+              historyActive++;
+              loadHistory(job).finally(() => {
+                historyActive--;
+                pumpHistory();
+              });
+            }
+          }
+          async function loadHistory({ cell, item }) {
+            const { offer, quote } = item,
+              currency = quote?.price?.currency;
+            if (!quote) {
+              cell.replaceChildren(el('span', 'history-label', 'No priced tariff'));
+              return;
+            }
+            const key = loadGeneration + '|' + offer.id + '|' + quote.id + '|' + currency;
+            if (historyCache.has(key)) {
+              drawHistory(cell, historyCache.get(key));
+              return;
+            }
+            try {
+              const since = Date.now() - 30 * 86400000;
+              let cursor = null,
+                events = [],
+                tracking = null,
+                truncated = false;
+              for (let i = 0; i < 3; i++) {
+                const params = new URLSearchParams({
+                  listing_id: offer.id,
+                  since: new Date(since).toISOString(),
+                  limit: '200'
+                });
+                if (cursor !== null) params.set('after_id', String(cursor));
+                const data = await request('history?' + params);
+                if (!Array.isArray(data.items)) throw new Error('Invalid history response');
+                events.push(...data.items);
+                tracking = data.tracking_started_at;
+                cursor = data.next_after_id;
+                if (cursor === null || cursor === undefined) break;
+                if (i === 2) truncated = true;
+              }
+              const points = Data.historyPoints(events, offer, quote, currency, since);
+              const result = { points, tracking, since, truncated };
+              historyCache.set(key, result);
+              if (cell.isConnected) drawHistory(cell, result);
+            } catch (error) {
+              if (!cell.isConnected) return;
+              cell.replaceChildren();
+              const retry = el('button', 'history-retry', 'Unavailable');
+              retry.title = error.message + ' Click to retry history.';
+              retry.setAttribute('aria-label', 'Retry price history for ' + title(offer));
+              retry.onclick = () => {
+                cell.replaceChildren(el('span', 'history-label', 'Loading…'));
+                historyQueue.push({ cell, item });
+                pumpHistory();
+              };
+              cell.append(retry);
+            }
+          }
+          function drawHistory(cell, { points, tracking, since, truncated }) {
+            cell.replaceChildren();
+            if (truncated || points.length < 2) {
+              cell.append(
+                el('span', 'history-label', truncated ? 'Partial history' : 'Not enough data')
+              );
+              cell.title =
+                'A trend requires at least two recorded prices for the same tariff. Tracking started ' +
+                date(tracking) +
+                '.';
+              return;
+            }
+            const oldest = Math.max(since, Date.parse(tracking) || since),
+              partial = oldest > since;
+            const min = Math.min(...points.map((p) => p.value)),
+              max = Math.max(...points.map((p) => p.value)),
+              range = max - min;
+            const first = points[0].at,
+              last = points.at(-1).at;
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('viewBox', '0 0 72 24');
+            svg.classList.add('sparkline');
+            svg.setAttribute('role', 'img');
+            svg.setAttribute(
+              'aria-label',
+              points.length +
+                ' observed price points' +
+                (partial ? ', less than 30 days of coverage' : '')
+            );
+            const line = document.createElementNS(svg.namespaceURI, 'polyline');
+            line.setAttribute(
+              'points',
+              points
+                .map(
+                  (p) =>
+                    (2 + ((p.at - first) / Math.max(1, last - first)) * 68).toFixed(2) +
+                    ',' +
+                    (range ? 21 - ((p.value - min) / range) * 18 : 12).toFixed(2)
+                )
+                .join(' ')
+            );
+            line.setAttribute('fill', 'none');
+            line.setAttribute('stroke', '#2A52E8');
+            line.setAttribute('stroke-width', '2');
+            line.setAttribute('stroke-linejoin', 'round');
+            svg.append(line);
+            cell.append(
+              svg,
+              el('span', 'history-label', partial ? 'Partial coverage' : 'Observed prices')
+            );
+            cell.title =
+              points.length +
+              ' observed prices for one tariff, ' +
+              date(new Date(first).toISOString()) +
+              ' to ' +
+              date(new Date(last).toISOString()) +
+              '. ' +
+              (partial
+                ? 'Tracking began less than 30 days ago.'
+                : 'Only the recorded observation span is plotted.');
+          }
+          function navigate(hash) {
+            if (location.hash === '#' + hash) {
+              route();
+              return;
+            }
+            location.hash = hash;
+          }
+          function showDialog(heading) {
+            $('dialog-title').textContent = heading;
+            $('dialog-body').replaceChildren();
+            if (!$('dialog').open) $('dialog').showModal();
+            return $('dialog-body');
+          }
+          function facts(pairs) {
+            const dl = el('dl', 'detail-grid');
+            for (const [key, value] of pairs) {
+              const wrap = el('div');
+              wrap.append(el('dt', '', key), el('dd', '', value));
+              dl.append(wrap);
+            }
+            return dl;
+          }
+          async function openOffer(id) {
+            const body = showDialog('Offer details');
+            body.append(el('p', 'muted', 'Loading offer…'));
+            try {
+              let offer = offers.find((o) => o.id === id);
+              if (!offer) offer = await request('offers/' + encodeURIComponent(id));
+              if (location.hash !== '#offer=' + encodeURIComponent(id)) return;
+              const provider = providers.get(offer.provider_id);
+              body.replaceChildren();
+              $('dialog-title').textContent =
+                title(offer) + ' · ' + (provider?.name || offer.provider_id);
+              body.append(
+                facts([
+                  ['Type', human(offer.model)],
+                  ['Availability', human(offer.availability)],
+                  ['Addresses', BigInt(offer.resource.address_count).toLocaleString('en-US')],
+                  ['Regional registry', offer.resource.rir || 'Not specified'],
+                  ['Country', country(offer.geography?.country)],
+                  ['Location provenance', human(offer.geography?.basis)]
+                ])
+              );
+              if (!offer.resource.prefix)
+                body.append(
+                  el(
+                    'p',
+                    'note',
+                    'The provider does not publish this prefix. It cannot be inferred from this listing.'
+                  )
+                );
+              if (offer.geography?.basis === 'seller_country')
+                body.append(
+                  el(
+                    'p',
+                    'note',
+                    'The reported country is the seller’s location. It does not establish the network’s location.'
+                  )
+                );
+              const actions = el('div', 'detail-actions');
+              actions.append(external(offer.url, 'View offer at seller →', 'button-link primary'));
+              if (offer.resource.prefix) {
+                const lookup = el('button', '', 'Look up network');
+                lookup.onclick = () => openLookup(offer.resource.prefix);
+                actions.append(lookup);
+              }
+              body.append(
+                actions,
+                el(
+                  'p',
+                  'muted',
+                  'Enquiries and transactions take place directly with the seller. Base prices exclude unknown or separately listed costs.'
+                )
+              );
+              body.append(el('h3', '', 'All published tariffs'));
+              if (!offer.quotes?.length)
+                body.append(el('p', 'muted', 'No public pricing supplied.'));
+              for (const quote of offer.quotes || []) {
+                const card = el('section', 'quote-card');
+                card.append(el('h3', '', Data.money(quote.price)));
+                card.append(
+                  facts([
+                    [
+                      'Billing',
+                      offer.model === 'purchase'
+                        ? 'One-time purchase'
+                        : quote.billing_months + ' months'
+                    ],
+                    [
+                      'Minimum commitment',
+                      quote.minimum_months === null
+                        ? 'Not specified'
+                        : quote.minimum_months + ' months'
+                    ],
+                    ['Taxes', human(quote.taxes)],
+                    ['Tariff reference', quote.id]
+                  ])
+                );
+                for (const fee of quote.fees || []) {
+                  card.append(
+                    el(
+                      'p',
+                      '',
+                      human(fee.kind) +
+                        ': ' +
+                        (fee.amount ? Data.money(fee.amount) : 'Amount not specified') +
+                        ' · ' +
+                        human(fee.frequency) +
+                        ' · Refundable: ' +
+                        bool(fee.refundable)
+                    )
+                  );
+                  if (fee.condition) card.append(el('p', 'muted', fee.condition));
+                }
+                if (!quote.fees?.length)
+                  card.append(
+                    el(
+                      'p',
+                      'muted',
+                      'No fee information supplied. Confirm extra charges with the seller.'
+                    )
+                  );
+                body.append(card);
+              }
+              body.append(
+                el('h3', '', 'Routing & resource details'),
+                facts([
+                  ['Published prefix', offer.resource.prefix || 'Not disclosed'],
+                  ['Prefix length', '/' + offer.resource.prefix_length],
+                  ['Registration status', human(offer.resource.registration_status)],
+                  [
+                    'Transfer registries',
+                    (offer.resource.transfer_rirs || []).join(', ') || 'Not specified'
+                  ],
+                  ['City', offer.geography?.city || 'Not specified'],
+                  ['BGP', human(offer.routing?.bgp)],
+                  ['RPKI', human(offer.routing?.rpki)],
+                  ['Reverse DNS', human(offer.routing?.rdns)],
+                  ['Letter of authorization', human(offer.routing?.loa)],
+                  ['Own ASN', bool(offer.routing?.own_asn)],
+                  ['Transit required', bool(offer.routing?.transit_required)],
+                  ['Available from', date(offer.available_at)]
+                ]),
+                el(
+                  'p',
+                  'note',
+                  'Routing fields are provider claims, not independent BGP, RPKI, reputation or blocklist test results.'
+                )
+              );
+              body.append(
+                el('h3', '', 'Terms & permitted use'),
+                el('p', '', offer.terms?.summary || 'No terms summary supplied.'),
+                facts([
+                  [
+                    'Permitted uses',
+                    (offer.terms?.allowed_uses || []).map(human).join(', ') || 'Not specified'
+                  ],
+                  [
+                    'Prohibited uses',
+                    (offer.terms?.prohibited_uses || []).map(human).join(', ') || 'Not specified'
+                  ],
+                  [
+                    'Notice period',
+                    offer.terms?.notice_days === null
+                      ? 'Not specified'
+                      : offer.terms?.notice_days + ' days'
+                  ],
+                  ['Verification', offer.terms?.verification || 'Not specified']
+                ])
+              );
+              body.append(
+                el('h3', '', 'Source & freshness'),
+                facts([
+                  ['Offer observed', date(offer.observed_at)],
+                  ['Source updated', date(offer.source_updated_at)],
+                  ['Provider last success', date(provider?.source?.last_success)],
+                  ['Provider last attempt', date(provider?.source?.last_attempt)],
+                  ['Freshness', human(offer.freshness)],
+                  ['Provider freshness', human(provider?.freshness)],
+                  ['Complete source snapshot', bool(provider?.source?.complete)],
+                  ['Publication basis', human(provider?.policy?.publication)],
+                  [
+                    'Minimum refresh interval',
+                    provider?.policy
+                      ? provider.policy.min_refresh_seconds / 60 + ' minutes'
+                      : 'Not specified'
+                  ],
+                  ['Listing ID', offer.id],
+                  ['Provider reference', offer.external_id]
+                ])
+              );
+              for (const condition of provider?.policy?.conditions || [])
+                body.append(el('p', 'note', condition));
+            } catch (error) {
+              body.replaceChildren(el('p', 'note', error.message));
+            }
+          }
+          function openProviders() {
+            const body = showDialog('Providers');
+            for (const provider of providers.values()) {
+              const card = el('section', 'provider-card'),
+                heading = el('div', 'provider-title');
+              heading.append(
+                el('h3', '', provider.name),
+                badge(
+                  provider.source?.last_success ? human(provider.freshness) : 'Not connected',
+                  provider.source?.last_success && provider.freshness === 'fresh' ? 'ok' : 'neutral'
+                )
+              );
+              card.append(
+                heading,
+                el('p', '', provider.description || 'No description supplied.'),
+                el(
+                  'p',
+                  '',
+                  provider.source
+                    ? provider.source.count +
+                        ' observed offers · last success ' +
+                        date(provider.source.last_success)
+                    : 'No successful source snapshot recorded.'
+                ),
+                external(provider.url, 'Provider website →', 'source-link')
+              );
+              for (const condition of provider.policy?.conditions || [])
+                card.append(el('p', '', condition));
+              body.append(card);
+            }
+          }
+          function openLookup(resource = '') {
+            const body = showDialog('Network lookup');
+            body.append(
+              el(
+                'p',
+                'muted',
+                'Look up a public prefix, IP address or ASN. Results come from the API’s free network sources, with their original coverage and timestamps.'
+              )
+            );
+            const form = el('form', 'lookup-form'),
+              input = el('input');
+            input.id = 'network-resource';
+            input.name = 'resource';
+            input.required = true;
+            input.maxLength = 120;
+            input.placeholder = '203.0.113.0/24 or AS13335';
+            input.value = resource;
+            const label = el('label', 'sr-only', 'Network resource');
+            label.htmlFor = input.id;
+            const button = el('button', 'primary', 'Run lookup');
+            button.type = 'submit';
+            form.append(label, input, button);
+            const result = el('div');
+            result.setAttribute('role', 'status');
+            body.append(form, result);
+            form.onsubmit = async (event) => {
+              event.preventDefault();
+              button.disabled = true;
+              result.replaceChildren(el('p', 'muted', 'Querying network sources…'));
+              try {
+                const data = await request(
+                  'network?' +
+                    new URLSearchParams({
+                      resource: input.value.trim(),
+                      checks: input.value.trim().toUpperCase().startsWith('AS')
+                        ? 'asn_overview,asn_neighbours'
+                        : 'prefix_overview,routing_status,rpki,rdap'
+                    })
+                );
+                const pre = el('pre', 'lookup-result', JSON.stringify(data, null, 2));
+                pre.tabIndex = 0;
+                pre.setAttribute('aria-label', 'Network lookup results with source data');
+                result.replaceChildren(pre);
+              } catch (error) {
+                result.replaceChildren(el('p', 'note', error.message));
+              } finally {
+                button.disabled = false;
+              }
+            };
+          }
+          function openPanel(panel) {
+            if (panel === 'checks') {
+              openCheckDetails();
+              return;
+            }
+            if (panel === 'providers') {
+              openProviders();
+              return;
+            }
+            if (panel === 'lookup') {
+              openLookup($('lookup-search').value.trim());
+              return;
+            }
+            const body = showDialog(panel === 'mcp' ? 'MCP connection' : 'Data & coverage');
+            if (panel === 'mcp') {
+              body.append(
+                el(
+                  'p',
+                  '',
+                  'Connect an MCP client to the same read-only catalogue and network tools.'
+                ),
+                el(
+                  'pre',
+                  'lookup-result',
+                  JSON.stringify(
+                    { mcpServers: { subregator: { url: 'https://mcp.subregator.com/' } } },
+                    null,
+                    2
+                  )
+                ),
+                el(
+                  'p',
+                  'note',
+                  'Use a client that supports Streamable HTTP. This is a protocol endpoint, not a web page.'
+                )
+              );
+              return;
+            }
+            for (const [heading, text] of [
+              [
+                'Real source data',
+                'The page loads complete IPv4 offer snapshots from the public API. It does not generate sample listings or fall back to demo data. Filters apply to the loaded snapshot; Refresh obtains a new one.'
+              ],
+              [
+                'Prices and currencies',
+                'Price per IP is the exact base billing amount divided by the number of addresses and billing months for leases. Per-IP display values are rounded to four decimals and marked ≈ when needed. Filters and sorting use exact integer ratios. Total prices retain their source precision. No currency conversion or unknown fee totals are invented.'
+              ],
+              [
+                'Checks are not guarantees',
+                'Checks use real RIPEstat observations from our API and the complete Spamhaus DROP IPv4 feed. BGP announced requires an exact-prefix RIS observation; covering routes are not an exact match. RPKI valid requires every observed exact-prefix origin to validate; missing origins, more than the API origin limit, low-visibility filtering, no ROA, stale or failed results cannot pass. DROP means no overlapping address in that named feed only. This is not a reputation, ownership, reachability or safety guarantee. Checks run in explicit batches of up to 25; counts are a checked subset, not a complete catalogue verdict.'
+              ],
+              [
+                'Observed price history',
+                'Charts use recorded events for the same tariff, currency, billing period and address count. They plot only the observed time span. Partial coverage is labelled; lifecycle gaps and insufficient data produce no invented trend. History is loaded only for visible rows.'
+              ],
+              [
+                'Publication and availability',
+                'A provider registry entry is not a connected inventory. Successful observations can later become stale. Hidden prefixes remain hidden. Seller country is not network geolocation. Confirm pricing, availability and terms directly with the provider.'
+              ],
+              [
+                'Accounts and alerts',
+                'The current API is public and read-only. Sign in and Create alert are unavailable. No account is needed to browse.'
+              ]
+            ])
+              body.append(el('h3', '', heading), el('p', '', text));
+            const links = el('div', 'api-links');
+            links.append(
+              external('https://api.subregator.com/openapi.json', 'OpenAPI schema'),
+              external(
+                'https://api.subregator.com/api/v1/network/checks',
+                'Network check capabilities'
+              )
+            );
+            body.append(links);
+          }
+          function route() {
+            const hash = location.hash;
+            if (hash.startsWith('#offer=')) {
+              try {
+                openOffer(decodeURIComponent(hash.slice(7)));
+              } catch {
+                showDialog('Invalid offer link').append(
+                  el('p', '', 'The offer identifier is invalid.')
+                );
+              }
+            } else if (['#providers', '#lookup', '#mcp', '#docs', '#checks'].includes(hash))
+              openPanel(hash.slice(1));
+            else if ($('dialog').open) $('dialog').close();
+          }
+          function closeDialog() {
+            if ($('dialog').open) $('dialog').close();
+            history.replaceState(null, '', location.pathname + location.search);
+            if (dialogReturnFocus?.isConnected) dialogReturnFocus.focus({ preventScroll: true });
+            dialogReturnFocus = null;
+          }
+          $('dialog-close').onclick = closeDialog;
+          $('dialog').addEventListener('cancel', (event) => {
+            event.preventDefault();
+            closeDialog();
+          });
+          $('dialog').addEventListener('click', (event) => {
+            if (event.target === $('dialog')) {
+              const rect = $('dialog').getBoundingClientRect();
+              if (
+                event.clientX < rect.left ||
+                event.clientX > rect.right ||
+                event.clientY < rect.top ||
+                event.clientY > rect.bottom
+              )
+                closeDialog();
+            }
+          });
+          window.addEventListener('hashchange', route);
+          window.addEventListener('popstate', () => {
+            if (location.search !== renderedSearch) {
+              renderedSearch = location.search;
+              state = readState();
+              cancelChecks();
+              syncControls();
+              render();
+            }
+          });
+          $('toggle-filters').onclick = () => {
+            const expanded = document.querySelector('.sidebar').classList.toggle('expanded');
+            $('toggle-filters').setAttribute('aria-expanded', String(expanded));
+            $('toggle-filters').textContent = expanded ? 'Show less' : 'Show all';
+          };
+          $('verify-checks').onclick = () => verifyBatch();
+          $('cancel-checks').onclick = () => {
+            cancelChecks();
+            checksNote =
+              'Checks cancelled. Completed observations remain visible until they expire.';
+            render();
+          };
+          for (const input of document.querySelectorAll('[data-check]'))
+            input.onchange = () => {
+              input.checked
+                ? state.checks.add(input.dataset.check)
+                : state.checks.delete(input.dataset.check);
+              changed();
+              if (state.checks.size) verifyBatch();
+            };
+          setInterval(() => {
+            if (loaded && !checksRunning && !$('dialog').open) render();
+          }, 15000);
+          $('reset-filters').onclick = resetFilters;
+          $('refresh').onclick = load;
+          $('type-chips').onclick = (event) => {
+            const button = event.target.closest('[data-type]');
+            if (!button) return;
+            state.model = button.dataset.type;
+            const available = currencies(state.model);
+            if (available.length && !available.includes(state.currency))
+              state.currency = available.includes('USD') ? 'USD' : available[0];
+            changed();
+          };
+          for (const [id, key] of [
+            ['rir-chips', 'rirs'],
+            ['size-chips', 'sizes']
+          ])
+            $(id).onclick = (event) => {
+              const button = event.target.closest('button');
+              if (!button) return;
+              const value = button.dataset[id === 'rir-chips' ? 'rir' : 'size'];
+              state[key].has(value) ? state[key].delete(value) : state[key].add(value);
+              changed();
+            };
+          $('currency').onchange = (event) => {
+            state.currency = event.target.value;
+            changed();
+          };
+          $('sort').onchange = (event) => {
+            state.sort = event.target.value;
+            changed();
+          };
+          let debounce;
+          function updateSearch() {
+            clearTimeout(debounce);
+            state.q = $('offer-search').value;
+            changed();
+          }
+          $('offer-search').oninput = () => {
+            clearTimeout(debounce);
+            debounce = setTimeout(updateSearch, 180);
+          };
+          $('catalogue-search').onsubmit = (event) => {
+            event.preventDefault();
+            updateSearch();
+          };
+          for (const id of ['min-price', 'max-price'])
+            $(id).oninput = (event) => {
+              cancelChecks();
+              checksNote = '';
+              state[id === 'min-price' ? 'min' : 'max'] = event.target.value.trim();
+              page = 0;
+              saveState();
+              render();
+            };
+          $('previous').onclick = () => {
+            page--;
+            render();
+          };
+          $('next').onclick = () => {
+            page++;
+            render();
+          };
+          $('header-search').onsubmit = (event) => {
+            event.preventDefault();
+            openLookup($('lookup-search').value.trim());
+          };
+          if (location.protocol === 'file:') {
+            status(
+              'Serve this HTML over HTTP(S) to access the API. For local use, run python3 serve.py and open http://localhost:5173.',
+              true
+            );
+            $('subtitle').textContent = 'HTTP server required';
+          } else load();
+        })();
+    </script>
+  </body>
+</html>

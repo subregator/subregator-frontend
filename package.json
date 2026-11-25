@@ -1,0 +1,19 @@
+{
+  "name": "subregator-frontend",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "python3 serve.py",
+    "dev": "python3 serve.py --bind 0.0.0.0",
+    "test": "python3 -m unittest discover -s tests -p \"*_test.py\" && node --test tests/*.test.mjs",
+    "test:e2e": "playwright test",
+    "format": "prettier --write index.html README.md package.json playwright.config.mjs tests/*.mjs",
+    "format:check": "prettier --check index.html README.md package.json playwright.config.mjs tests/*.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.1",
+    "@playwright/test": "^1.65.1",
+    "prettier": "^3.10.1"
+  }
+}
