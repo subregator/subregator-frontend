@@ -320,6 +320,8 @@ test('Peaktera attribution, exact term links and upfront fees expire in an open 
   );
   await page.clock.fastForward(3601000);
   await expect(page.locator('#dialog')).toContainText('Peaktera offer expired');
+  await expect(page.locator('#dialog-title')).toHaveText('Offer expired');
+  await expect(page.locator('.offer-row')).toHaveCount(0);
   await expect(page.locator('#dialog').getByRole('link', { name: 'Order this block' })).toHaveCount(
     0
   );
@@ -375,4 +377,24 @@ test('Peaktera expiry preserves lookup input on another page', async ({ page }) 
   await input.fill('192.0.2.0/24');
   await page.clock.fastForward(2100);
   await expect(input).toHaveValue('192.0.2.0/24');
+});
+
+test('Peaktera expiry preserves lookup opened directly from its detail', async ({ page }) => {
+  await page.clock.install();
+  const offer = { ...offers[40], observed_at: new Date(Date.now() - 3598000).toISOString() };
+  await page.route('**/api/v1/offers?**', (route) =>
+    route.fulfill({ json: { items: [offer], total: 1, snapshot: 'one', offset: 0 } })
+  );
+  await page.goto('/');
+  await page.locator('.prefix-button').click();
+  await page
+    .locator('#dialog')
+    .getByRole('button', { name: 'Look up network', exact: true })
+    .click();
+  const input = page.getByLabel('Network resource');
+  await input.fill('AS13335');
+  await page.clock.fastForward(2100);
+  await expect(input).toHaveValue('AS13335');
+  await page.getByRole('button', { name: 'Close dialog' }).click();
+  await expect(page.locator('.offer-row')).toHaveCount(0);
 });

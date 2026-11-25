@@ -1914,7 +1914,7 @@
             expiryTimer = setTimeout(
               () => {
                 offers = offers.filter((offer) => Data.publishable(offer));
-                if (loaded && !$('dialog').open) render();
+                if (loaded) render();
                 scheduleOfferExpiry();
               },
               Math.max(0, next - Date.now()) + 1
@@ -2799,6 +2799,7 @@
             location.hash = hash;
           }
           function showDialog(heading) {
+            clearTimeout(detailExpiryTimer);
             $('dialog-title').textContent = heading;
             $('dialog-body').replaceChildren();
             if (!$('dialog').open) $('dialog').showModal();
@@ -2814,7 +2815,6 @@
             return dl;
           }
           async function openOffer(id) {
-            clearTimeout(detailExpiryTimer);
             const body = showDialog('Offer details');
             body.append(el('p', 'muted', 'Loading offer…'));
             try {
@@ -2828,10 +2828,12 @@
                 const expiry = Date.parse(offer.observed_at) + 3600000;
                 detailExpiryTimer = setTimeout(
                   () => {
-                    if (location.hash === requestedHash && body.isConnected)
+                    if (location.hash === requestedHash && body.isConnected) {
+                      $('dialog-title').textContent = 'Offer expired';
                       body.replaceChildren(
                         el('p', 'muted', 'Peaktera offer expired. Refresh the catalogue.')
                       );
+                    }
                   },
                   Math.max(0, expiry - Date.now()) + 1
                 );
@@ -3252,6 +3254,7 @@
           setInterval(() => {
             if (offers.some((offer) => !Data.publishable(offer))) {
               offers = offers.filter((offer) => Data.publishable(offer));
+              if (loaded) render();
               scheduleOfferExpiry();
             }
             if (loaded && !checksRunning && !$('dialog').open) render();
