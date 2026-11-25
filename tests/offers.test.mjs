@@ -138,6 +138,7 @@ describe('standalone page contract', () => {
       ...base,
       id: 'two',
       provider_id: 'peaktera',
+      observed_at: new Date().toISOString(),
       resource: { ...base.resource, prefix: null, rir: 'ARIN', prefix_length: 20 }
     };
     assert.equal(
@@ -276,4 +277,34 @@ describe('independent check filters', () => {
       1
     );
   });
+});
+
+it('expires Peaktera offers and includes setup and deposit in upfront amounts', () => {
+  const now = Date.now();
+  assert.equal(
+    Data.publishable(
+      { provider_id: 'peaktera', observed_at: new Date(now - 3600001).toISOString() },
+      now
+    ),
+    false
+  );
+  assert.equal(
+    Data.publishable(
+      { provider_id: 'peaktera', observed_at: new Date(now - 3600000).toISOString() },
+      now
+    ),
+    true
+  );
+  assert.equal(Data.publishable({ provider_id: 'peaktera', observed_at: 'bad' }, now), false);
+  const price = { currency: 'USD', amount_minor: 50000, minor_unit: 2 };
+  const quote = {
+    price,
+    fees: [
+      { amount: { ...price, amount_minor: 1500 }, frequency: 'once' },
+      { amount: { ...price, amount_minor: 100000 }, frequency: 'once' }
+    ]
+  };
+  assert.equal(Data.upfront(quote).amount_minor, 151500);
+  assert.equal(Data.upfront({ ...quote, fees: [{ amount: null, frequency: 'once' }] }), null);
+  assert.equal(Data.upfront({ ...quote, fees: [{ amount: price, frequency: 'monthly' }] }), null);
 });

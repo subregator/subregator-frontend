@@ -1501,6 +1501,26 @@
             currency: price.currency
           };
         }
+        function publishable(offer, now = Date.now()) {
+          if (offer.provider_id !== 'peaktera') return true;
+          const observed = Date.parse(offer.observed_at);
+          return Number.isFinite(observed) && observed <= now + 60000 && now - observed <= 3600000;
+        }
+        function upfront(quote) {
+          if (!quote?.price || !quote.fees?.length) return null;
+          const total = { ...quote.price };
+          for (const fee of quote.fees) {
+            if (
+              !fee.amount ||
+              fee.frequency !== 'once' ||
+              fee.amount.currency !== total.currency ||
+              fee.amount.minor_unit !== total.minor_unit
+            )
+              return null;
+            total.amount_minor += fee.amount.amount_minor;
+          }
+          return Number.isSafeInteger(total.amount_minor) ? total : null;
+        }
         function ratio(offer, quote) {
           const price = moneyValue(quote?.price);
           if (
@@ -1584,6 +1604,7 @@
           const query = state.q.toLowerCase().trim();
           const rows = [];
           for (const offer of offers) {
+            if (!publishable(offer)) continue;
             if (offer.resource.family !== 4 || offer.model !== state.model) continue;
             if (state.rirs.size && !state.rirs.has(offer.resource.rir)) continue;
             if (
@@ -1666,6 +1687,8 @@
         }
         return {
           safeURL,
+          publishable,
+          upfront,
           moneyValue,
           ratio,
           compare,
@@ -1695,6 +1718,7 @@
             checksRunning = false,
             checksNote = '',
             checksBlockedUntil = 0;
+          let expiryTimer, detailExpiryTimer;
           let offers = [],
             rows = [],
             page = 0,
@@ -1879,6 +1903,23 @@
                 throw new Error('Invalid billing period in the API.');
             }
           }
+          function scheduleOfferExpiry() {
+            clearTimeout(expiryTimer);
+            const next = Math.min(
+              ...offers
+                .filter((offer) => offer.provider_id === 'peaktera')
+                .map((offer) => Date.parse(offer.observed_at) + 3600000)
+            );
+            if (!Number.isFinite(next)) return;
+            expiryTimer = setTimeout(
+              () => {
+                offers = offers.filter((offer) => Data.publishable(offer));
+                if (loaded && !$('dialog').open) render();
+                scheduleOfferExpiry();
+              },
+              Math.max(0, next - Date.now()) + 1
+            );
+          }
           async function load() {
             cancelChecks();
             loadController?.abort();
@@ -1955,7 +1996,8 @@
               historyCache.clear();
               providers.clear();
               sourceData.items.forEach((p) => providers.set(p.id, p));
-              offers = batch;
+              offers = batch.filter((offer) => Data.publishable(offer));
+              scheduleOfferExpiry();
               loaded = true;
               $('source-filters').setAttribute('aria-busy', 'false');
               cancelChecks();
@@ -2272,6 +2314,17 @@
               total.title =
                 'Actual base amount billed by the provider; taxes, fees and deposits are separate.';
               cells[3].append(total);
+              if (offer.provider_id === 'peaktera') {
+                const due = Data.upfront(quote);
+                if (due)
+                  cells[3].append(
+                    el(
+                      'span',
+                      'cell-sub',
+                      Data.money(due) + ' upfront incl. setup & deposit; taxes unconfirmed'
+                    )
+                  );
+              }
             } else cells[3].append(el('span', 'cell-sub', 'Ask the seller'));
             fillCheckCell(cells[4], offer);
             cells[5].className = 'history-cell';
@@ -2279,8 +2332,10 @@
             cells[5]._historyJob = { cell: cells[5], item };
             historyObserver.observe(cells[5]);
             const seller = external(
-              provider?.url,
-              provider?.name || offer.provider_id,
+              offer.provider_id === 'peaktera' ? quote?.order_url || offer.url : provider?.url,
+              offer.provider_id === 'peaktera'
+                ? 'Data: Peaktera'
+                : provider?.name || offer.provider_id,
               'source-link'
             );
             cells[6].append(seller, el('span', 'cell-sub', ago(offer.observed_at)));
@@ -2619,6 +2674,12 @@
             }
           }
           async function loadHistory({ cell, item }) {
+            if (item.offer.provider_id === 'peaktera') {
+              cell.replaceChildren(
+                el('span', 'muted', 'History not published under source freshness policy')
+              );
+              return;
+            }
             const { offer, quote } = item,
               currency = quote?.price?.currency;
             if (!quote) {
@@ -2753,12 +2814,28 @@
             return dl;
           }
           async function openOffer(id) {
+            clearTimeout(detailExpiryTimer);
             const body = showDialog('Offer details');
             body.append(el('p', 'muted', 'Loading offer…'));
             try {
               let offer = offers.find((o) => o.id === id);
               if (!offer) offer = await request('offers/' + encodeURIComponent(id));
               if (location.hash !== '#offer=' + encodeURIComponent(id)) return;
+              if (!Data.publishable(offer))
+                throw new Error('Peaktera offer expired. Refresh the catalogue.');
+              if (offer.provider_id === 'peaktera') {
+                const requestedHash = location.hash;
+                const expiry = Date.parse(offer.observed_at) + 3600000;
+                detailExpiryTimer = setTimeout(
+                  () => {
+                    if (location.hash === requestedHash && body.isConnected)
+                      body.replaceChildren(
+                        el('p', 'muted', 'Peaktera offer expired. Refresh the catalogue.')
+                      );
+                  },
+                  Math.max(0, expiry - Date.now()) + 1
+                );
+              }
               const provider = providers.get(offer.provider_id);
               body.replaceChildren();
               $('dialog-title').textContent =
@@ -2790,6 +2867,8 @@
                   )
                 );
               const actions = el('div', 'detail-actions');
+              if (offer.provider_id === 'peaktera')
+                body.append(external(offer.url, 'Data: Peaktera', 'source-link'));
               actions.append(external(offer.url, 'View offer at seller →', 'button-link primary'));
               if (offer.resource.prefix) {
                 const lookup = el('button', '', 'Look up network');
@@ -2852,6 +2931,26 @@
                       'No fee information supplied. Confirm extra charges with the seller.'
                     )
                   );
+                if (offer.provider_id === 'peaktera') {
+                  const due = Data.upfront(quote);
+                  if (due)
+                    card.append(
+                      el(
+                        'p',
+                        '',
+                        Data.money(due) +
+                          ' upfront including setup & refundable deposit; taxes unconfirmed.'
+                      )
+                    );
+                  if (Data.safeURL(quote.order_url))
+                    card.append(
+                      external(
+                        quote.order_url,
+                        'Order this block · ' + quote.billing_months + ' mo →',
+                        'button-link'
+                      )
+                    );
+                }
                 body.append(card);
               }
               body.append(
@@ -3151,6 +3250,10 @@
               if (state.checks.size) verifyBatch();
             };
           setInterval(() => {
+            if (offers.some((offer) => !Data.publishable(offer))) {
+              offers = offers.filter((offer) => Data.publishable(offer));
+              scheduleOfferExpiry();
+            }
             if (loaded && !checksRunning && !$('dialog').open) render();
           }, 15000);
           $('reset-filters').onclick = resetFilters;
